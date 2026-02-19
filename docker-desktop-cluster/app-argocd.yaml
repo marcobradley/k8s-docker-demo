@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 'demo-dev'
+  namespace: argocd
+spec:
+  destination:
+    namespace: 'demo-dev'
+    server: ''
+  source:
+    path: 'docker-desktop-cluster'
+    repoURL: 'https://github.com/marcobradley/example-kubeadm.git'
+    targetRevision: main
+  sources: []
+  project: 'default'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
