@@ -5,8 +5,8 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: 'demo-dev'
-    server: ''
+    namespace: 'dev'
+    server: 'https://kubernetes.default.svc'
   source:
     path: 'docker-desktop-cluster'
     repoURL: 'https://github.com/marcobradley/example-kubeadm.git'
