@@ -10,7 +10,7 @@ spec:
   source:
     path: 'docker-desktop-cluster'
     repoURL: 'https://github.com/marcobradley/k8s-docker-demo.git'
-    targetRevision: 'v0.0.2'
+    targetRevision: 'main'
   sources: []
   project: 'default'
   syncPolicy:
