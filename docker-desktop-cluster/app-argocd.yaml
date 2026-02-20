@@ -9,7 +9,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: 'docker-desktop-cluster'
-    repoURL: 'https://github.com/marcobradley/k8s-docker-demo.git'
+    repoURL: 'git@github.com:marcobradley/k8s-docker-demo.git'
     targetRevision: 'main'
   sources: []
   project: 'default'
