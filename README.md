@@ -69,7 +69,7 @@ A GitHub Actions workflow has been added to automate semantic versioning using [
 * **Location:** `.github/workflows/release.yml`
 * **Trigger:** pushes to the `main` branch (typically merges).
 * **Behavior:** bumps the version based on conventional commits and creates a GitHub release.
-* **Requirements:** `GITHUB_TOKEN` is supplied automatically by GitHub Actions.
+* **Requirements:** `GITHUB_TOKEN` is supplied automatically by GitHub Actions. Make sure the workflow permissions allow commenting on issues/PRs (see `issues: write` and `pull-requests: write` in the GitHub Actions config).
 
 You can extend the workflow with tests/build steps as needed or adjust branch filters.
 
