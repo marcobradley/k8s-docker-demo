@@ -16,15 +16,6 @@ jobs:
           fetch-depth: 0 
           persist-credentials: false # Recommended for protected branches
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20' # Use a supported Node.js version
-
-      - name: Install dependencies
-        run: npm install
-        # or yarn install, pnpm install, etc.
-
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4 # Use the specific action
         env:
