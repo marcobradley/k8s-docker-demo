@@ -48,6 +48,32 @@ Replace the example chart above with any chart you need.
   - `ns-argocd.yaml` – namespace for argocd
   - `svc-nginx.yaml` – service for nginx deployment
 
+  ## Cluster config (`kind`) 🧩
+
+  This repository includes a `kind` cluster configuration that creates a single control-plane node that maps host ports 80 and 443 into the node so an ingress controller can bind to the host HTTP/S ports.
+
+  - **File:** `docker-desktop-cluster/kind-confg.yaml`
+  - **Cluster name:** `kind-demo-cluster` (set via `name:` in the config)
+  - **Host port mappings:** `80 -> 80`, `443 -> 443` on the control-plane node (`extraPortMappings`)
+
+  To recreate the cluster using this config:
+
+  ```powershell
+  kind delete cluster --name kind-demo-cluster
+  kind create cluster --config .\docker-desktop-cluster\kind-confg.yaml --name kind-demo-cluster
+  ```
+
+  After the cluster is running install an ingress controller (example with `ingress-nginx`):
+
+  ```powershell
+  kubectl create namespace ingress-nginx
+  helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+  helm repo update
+  helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
+  ```
+
+  The ingress controller will be able to serve on ports 80 and 443 from the host because of the `extraPortMappings` in the `kind` config.
+
 ## Tearing down the cluster 🧹
 
 ```powershell
