@@ -1,0 +1,8 @@
+{
+  "name": "k8s-docker-demo",
+  "version": "0.0.0-development",
+  "private": true,
+  "release": {
+    "branches": ["main"]
+  }
+}
