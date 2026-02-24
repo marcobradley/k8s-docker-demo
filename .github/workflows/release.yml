@@ -1,29 +1,31 @@
 name: Release
-
-# run semantic-versioning with 'release-me' on merges to main
 on:
   push:
     branches:
-      - main
+      - main # Change this to your main release branch (e.g., master, release)
 
 jobs:
   release:
-    name: Bump version and create GitHub release
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # This is important for fetching the full commit history and tags
+          # which is required by semantic-release to determine the correct version.
+          fetch-depth: 0 
+          persist-credentials: false # Recommended for protected branches
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20' # Use a supported Node.js version
 
-      - name: Install release-me
-        run: npm install -g @semantic-release/release-me
+      - name: Install dependencies
+        run: npm install
+        # or yarn install, pnpm install, etc.
 
-      - name: Run release-me
-        run: release-me --dry-run=false
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4 # Use the specific action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
