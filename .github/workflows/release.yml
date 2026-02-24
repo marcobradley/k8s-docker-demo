@@ -1,0 +1,29 @@
+name: Release
+
+# run semantic-versioning with 'release-me' on merges to main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Bump version and create GitHub release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install release-me
+        run: npm install -g @semantic-release/release-me
+
+      - name: Run release-me
+        run: release-me --dry-run=false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
