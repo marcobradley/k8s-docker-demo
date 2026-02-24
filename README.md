@@ -1,4 +1,4 @@
-# example-kubeadm
+# example-kind
 
 This repository contains manifests and configuration for a simple Kubernetes demo using `kind`, `docker-desktop`, and `helm` on Windows.
 
