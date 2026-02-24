@@ -61,3 +61,15 @@ kind delete cluster --name demo
 * Helm communicates over the kubeconfig from `kubectl` and therefore automatically targets the active context.
 
 Feel free to adapt the configuration and manifests for your own experiments.
+
+## CI / Release pipeline 🔁
+
+A GitHub Actions workflow has been added to automate semantic versioning using [release-me](https://github.com/semantic-release/release-me).
+
+* **Location:** `.github/workflows/release.yml`
+* **Trigger:** pushes to the `main` branch (typically merges).
+* **Behavior:** bumps the version based on conventional commits and creates a GitHub release.
+* **Requirements:** `GITHUB_TOKEN` is supplied automatically by GitHub Actions.
+
+You can extend the workflow with tests/build steps as needed or adjust branch filters.
+
