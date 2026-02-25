@@ -46,7 +46,7 @@ helm install nginx-ingress stable/nginx-ingress \
 
 Replace the example chart above with any chart you need.
 
-## Setup Argocd
+## Setup Argocd and Expose UI on NodePort
 ```
 kubectl create namespace argocd  # if you haven’t already
 kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
@@ -75,42 +75,34 @@ kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubuse
   type: NodePort
   ```
 
-## Manifests in this repository 📁
+## Manifests & charts in this repository 📁
 
-- `docker-desktop-cluster/` – contains YAML manifests used in demonstrations and experiments:
-  - `app-argocd.yaml` – sample application manifest for Argocd
+- `docker-desktop-cluster/charts/k8s-demo/` – contains YAML manifests used in demonstrations and experiments:
   - `deployment-nginx.yaml` – basic nginx deployment
-  - `ns-argocd.yaml` – namespace for argocd
+  - `ns-argocd.yaml` – namespace for Argo CD
   - `svc-nginx.yaml` – service for nginx deployment
-  - `ingress.yaml` - ingress for the cluster
-  - `kind-config.yaml` - config for the kind cluster
+  - `ingress.yaml` – ingress for the cluster
+- `docker-desktop-cluster/cluster`
+  - `kind-config.yaml` – config for the kind cluster
+- `docker-desktop-cluster/argocd`
+  - `app-argocd.yaml` – sample application manifest for Argo CD (templated via Helm values)
+
+The GitHub Actions workflow that runs on pull requests validates YAML files; it now targets the chart directory and skips any files containing Helm template markers (`{{…}}`).  This keeps the linter from choking on templated manifests while still catching syntax problems in the top‑level chart files.
 
 ## Cluster config (`kind`) 🧩
 
 This repository includes a `kind` cluster configuration that creates a single control-plane node and maps host ports so an ingress controller can bind to the host HTTP/S ports.
 
-- **File:** `docker-desktop-cluster/kind-config.yaml`
+- **File:** `docker-desktop-cluster/cluster/kind-config.yaml`
 - **Cluster name:** `kind-demo-cluster` (configured via `name:` in the file)
-- **Host port mappings:** `30000 -> 30000` on the control-plane node (`extraPortMappings`) ([kind documentation](https://kind.sigs.k8s.io/docs/user/using-wsl2/#accessing-a-kubernetes-service-running-in-wsl2)).
+- **Host port mappings:** `30000 -> 30000, 30080 -> 30080, 30443 -> 30443` on the control-plane node (`extraPortMappings`) ([kind documentation](https://kind.sigs.k8s.io/docs/user/using-wsl2/#accessing-a-kubernetes-service-running-in-wsl2)).
 
 To recreate the cluster using this config:
 
 ```powershell
 kind delete cluster --name kind-demo-cluster
-kind create cluster --config .\docker-desktop-cluster\kind-config.yaml --name kind-demo-cluster
+kind create cluster --config .\docker-desktop-cluster\cluster\kind-config.yaml --name kind-demo-cluster
 ```
-
-  After the cluster is running install an ingress controller (example with `ingress-nginx`):
-
-  ```powershell
-  kubectl create namespace ingress-nginx
-  helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-  helm repo update
-  helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
-  ```
-
-  The ingress controller will be able to serve on ports 80 and 443 from the host because of the `extraPortMappings` in the `kind` config.
-
 ## Tearing down the cluster 🧹
 
 ```powershell
