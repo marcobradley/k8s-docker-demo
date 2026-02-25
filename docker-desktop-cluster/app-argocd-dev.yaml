@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 'demo-{{ .Values.environment }}'
+  namespace: argocd
+spec:
+  destination:
+    namespace: '{{ .Values.environment }}'
+    server: 'https://kubernetes.default.svc'
+  source:
+    helm:
+      valueFiles:
+        - charts/values.yaml
+        - charts/values-dev.yaml
+    path: 'docker-desktop-cluster'
+    repoURL: '{{ .Values.repoUrl }}'
+    targetRevision: '{{ .Values.app.targetRevision }}'
+  sources: []
+  project: '{{ .Values.app.project | default "default" }}'
+  {{- with .Values.app.syncPolicy }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
