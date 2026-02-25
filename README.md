@@ -6,21 +6,27 @@ This repository contains manifests and configuration for a simple Kubernetes dem
 
 Before you begin, ensure your local machine meets the following requirements:
 
-1. **Windows 10/11** with WSL2 enabled (optional but recommended).
-2. **Docker Desktop** installed and running. Set the backend to use WSL2 (if applicable) and ensure Kubernetes is **disabled** in Docker Desktop since `kind` will manage clusters.
+1. **Windows 10/11** with WSL2 enabled (Cgroup v2 recommended).
+2. **Docker Desktop** installed and running. Set the backend to WSL2 (if applicable) and make sure the built-in Kubernetes is **disabled** — `kind` will create/manage clusters for you.
 3. **kind** (Kubernetes IN Docker) installed globally. You can install via `choco install kind` or follow the instructions at https://kind.sigs.k8s.io/.
-4. **Helm** installed globally. Install via `choco install kubernetes-helm` or from https://helm.sh/docs/intro/install/.
+4. **kubectl** CLI on your PATH. The `kind` installer usually drops a copy in the same directory, but if you have other contexts you may want to install/upgrade via `choco install kubernetes-cli`.
+5. **Helm** installed globally. Install via `choco install kubernetes-helm` or from https://helm.sh/docs/intro/install/.
+6. **Go** (the language) installed globally. Install via `choco install golang` (not the JetBrains IDE `Goland`).
 
 > 💡 All commands in this readme are meant to be run from a PowerShell terminal.
 
 ## Setting up a local kind cluster 🔧
+```go
+// Installing Cloud Provider KIND (optional helper)
+go install sigs.k8s.io/cloud-provider-kind@latest
+```
 
 ```powershell
-# create a cluster named "demo"
-kind create cluster --name demo
+# create a cluster named "kind-demo-cluster" using the default config
+kind create cluster --name kind-demo-cluster
 
-# verify the cluster is running
-kubectl cluster-info --context kind-demo
+# verify the cluster is running (context will be "kind-kind-demo-cluster")
+kubectl cluster-info --context kind-kind-demo-cluster
 ```
 
 `kubectl` is provided by `kind`; ensure it’s on your PATH after installing kind.
@@ -40,6 +46,35 @@ helm install nginx-ingress stable/nginx-ingress \
 
 Replace the example chart above with any chart you need.
 
+## Setup Argocd
+```
+kubectl create namespace argocd  # if you haven’t already
+kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+- Expose the argocd-server service using NodePorts
+  ```
+  kubectl edit svc argocd-server -n argocd
+  ```
+- Update the spec to to point to the NodePorts set in the cluster config and the type to a NodePort
+  ```
+    ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+    nodePort: 30080
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 8080
+    nodePort: 30443
+  selector:
+    app.kubernetes.io/name: argocd-server
+  sessionAffinity: None
+  type: NodePort
+  ```
+
 ## Manifests in this repository 📁
 
 - `docker-desktop-cluster/` – contains YAML manifests used in demonstrations and experiments:
@@ -47,21 +82,23 @@ Replace the example chart above with any chart you need.
   - `deployment-nginx.yaml` – basic nginx deployment
   - `ns-argocd.yaml` – namespace for argocd
   - `svc-nginx.yaml` – service for nginx deployment
+  - `ingress.yaml` - ingress for the cluster
+  - `kind-config.yaml` - config for the kind cluster
 
-  ## Cluster config (`kind`) 🧩
+## Cluster config (`kind`) 🧩
 
-  This repository includes a `kind` cluster configuration that creates a single control-plane node that maps host ports 80 and 443 into the node so an ingress controller can bind to the host HTTP/S ports.
+This repository includes a `kind` cluster configuration that creates a single control-plane node and maps host ports so an ingress controller can bind to the host HTTP/S ports.
 
-  - **File:** `docker-desktop-cluster/kind-confg.yaml`
-  - **Cluster name:** `kind-demo-cluster` (set via `name:` in the config)
-  - **Host port mappings:** `80 -> 80`, `443 -> 443` on the control-plane node (`extraPortMappings`)
+- **File:** `docker-desktop-cluster/kind-config.yaml`
+- **Cluster name:** `kind-demo-cluster` (configured via `name:` in the file)
+- **Host port mappings:** `30000 -> 30000` on the control-plane node (`extraPortMappings`) ([kind documentation](https://kind.sigs.k8s.io/docs/user/using-wsl2/#accessing-a-kubernetes-service-running-in-wsl2)).
 
-  To recreate the cluster using this config:
+To recreate the cluster using this config:
 
-  ```powershell
-  kind delete cluster --name kind-demo-cluster
-  kind create cluster --config .\docker-desktop-cluster\kind-confg.yaml --name kind-demo-cluster
-  ```
+```powershell
+kind delete cluster --name kind-demo-cluster
+kind create cluster --config .\docker-desktop-cluster\kind-config.yaml --name kind-demo-cluster
+```
 
   After the cluster is running install an ingress controller (example with `ingress-nginx`):
 
@@ -77,7 +114,7 @@ Replace the example chart above with any chart you need.
 ## Tearing down the cluster 🧹
 
 ```powershell
-kind delete cluster --name demo
+kind delete cluster --name kind-demo-cluster
 ```
 
 ## Notes 📝
