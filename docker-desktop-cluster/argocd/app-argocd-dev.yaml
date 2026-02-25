@@ -2,22 +2,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: 'demo-{{ .Values.environment }}'
+  name: 'demo-dev'
   namespace: argocd
 spec:
   destination:
-    namespace: '{{ .Values.environment }}'
+    namespace: 'dev'
     server: 'https://kubernetes.default.svc'
   source:
     helm:
       valueFiles:
         - values.yaml
         - values-dev.yaml
-    path: 'docker-desktop-cluster\app-helm'
-    repoURL: '{{ .Values.repoUrl }}'
-    targetRevision: '{{ .Values.targetRevision }}'
+    path: 'docker-desktop-cluster\k8s-demo'
+    repoURL: 'git@github.com:marcobradley/k8s-docker-demo.git'
+    targetRevision: 'main'
   sources: []
-  project: '{{ .Values.project | default "default" }}'
+  project: 'default'
   syncPolicy:
     automated:
       prune: true
