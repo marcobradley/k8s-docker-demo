@@ -13,7 +13,7 @@ spec:
       valueFiles:
         - values.yaml
         - values-dev.yaml
-    path: 'docker-desktop-cluster/k8s-demo'
+    path: 'docker-desktop-cluster/charts/k8s-demo'
     repoURL: 'git@github.com:marcobradley/k8s-docker-demo.git'
     targetRevision: 'main'
   sources: []
