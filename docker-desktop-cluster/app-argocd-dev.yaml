@@ -1,0 +1,26 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 'demo-{{ .Values.environment }}'
+  namespace: argocd
+spec:
+  destination:
+    namespace: '{{ .Values.environment }}'
+    server: 'https://kubernetes.default.svc'
+  source:
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml
+    path: 'docker-desktop-cluster\app-helm'
+    repoURL: '{{ .Values.repoUrl }}'
+    targetRevision: '{{ .Values.targetRevision }}'
+  sources: []
+  project: '{{ .Values.project | default "default" }}'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

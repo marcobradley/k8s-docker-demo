@@ -1,0 +1,10 @@
+environment: 'dev'
+repoUrl: 'git@github.com:marcobradley/k8s-docker-demo.git'
+project: 'default'
+targetRevision: 'main'
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true
