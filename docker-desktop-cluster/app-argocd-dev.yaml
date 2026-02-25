@@ -11,13 +11,16 @@ spec:
   source:
     helm:
       valueFiles:
-        - charts/values.yaml
-        - charts/values-dev.yaml
-    path: 'docker-desktop-cluster'
+        - values.yaml
+        - values-dev.yaml
+    path: 'docker-desktop-cluster\app-helm'
     repoURL: '{{ .Values.repoUrl }}'
-    targetRevision: '{{ .Values.app.targetRevision }}'
+    targetRevision: '{{ .Values.targetRevision }}'
   sources: []
-  project: '{{ .Values.app.project | default "default" }}'
-  {{- with .Values.app.syncPolicy }}
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+  project: '{{ .Values.project | default "default" }}'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
