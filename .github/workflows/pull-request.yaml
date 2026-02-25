@@ -10,4 +10,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate Yaml Files
-        run: yamllint -c ../.yamllint .
+        run: yamllint -c ${{ github.workspace }}/.yamllint ${{ github.workspace }}/docker-desktop-cluster/*.yaml
