@@ -51,12 +51,18 @@ Replace the example chart above with any chart you need.
 kubectl create namespace argocd  # if you haven’t already
 kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
+# Get default pw from powershell
+```
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | %{[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_))}
+```
 
+# (Optional) Update argocd to use nodeports
 - Expose the argocd-server service using NodePorts
   ```
   kubectl edit svc argocd-server -n argocd
   ```
-- Update the spec to to point to the NodePorts set in the cluster config and the type to a NodePort
+- Update the spec to to point to the NodePorts set in the cluster config and the type to a NodePort.
+  - Node: The ports need to exist on the cluster
   ```
     ports:
   - name: http
@@ -103,6 +109,78 @@ To recreate the cluster using this config:
 kind delete cluster --name kind-demo-cluster
 kind create cluster --config .\docker-desktop-cluster\cluster\kind-config.yaml --name kind-demo-cluster
 ```
+
+## Deploying Envoy Gateway via Argo CD 🚪
+
+This repository includes an Argo CD Application manifest that deploys **Envoy Gateway**, a modern, feature-rich ingress and gateway controller based on the Gateway API standard.
+
+### Prerequisites
+
+- Argo CD must be installed in the cluster (see **Setup Argocd** section above).
+- Gateway API CRDs should already be installed (done as part of standard Argo CD setup).
+
+### Deploy Envoy Gateway
+
+Apply the Envoy Gateway application manifest via Argo CD:
+
+```powershell
+kubectl apply -f .\docker-desktop-cluster\argocd\app-envoy-gateway.yaml
+```
+
+Argo CD will detect the application and begin syncing. Check the status:
+
+```powershell
+# see application status
+kubectl get application -n argocd envoy-gateway
+
+# watch pods coming up in the envoy-gateway-system namespace
+kubectl get pods -n envoy-gateway-system -w
+```
+
+Once the pods are running (typically a minute or two), Envoy Gateway is ready to route traffic.
+
+### Creating Gateway and HTTPRoute resources
+
+With Envoy Gateway running, you can now define gateways and routes to expose your services.
+
+Example:
+
+```yaml
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway
+  namespace: default
+spec:
+  gatewayClassName: envoy
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-route
+  namespace: default
+spec:
+  parentRefs:
+  - name: my-gateway
+  hostnames:
+  - "example.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: my-service
+      port: 80
+```
+
+See [Gateway API documentation](https://gateway-api.sigs.k8s.io/) for more details on available resources and configuration options.
+
 ## Tearing down the cluster 🧹
 
 ```powershell
