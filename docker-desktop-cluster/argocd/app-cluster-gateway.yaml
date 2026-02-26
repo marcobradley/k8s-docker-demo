@@ -1,0 +1,22 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 'cluster-gateway'
+  namespace: argocd
+spec:
+  destination:
+    namespace: 'envoy-gateway-system'
+    server: 'https://kubernetes.default.svc'
+  source:
+    helm:
+      valueFiles:
+        - values.yaml
+    path: 'docker-desktop-cluster/cluster-gateway'
+    repoURL: 'git@github.com:marcobradley/k8s-docker-demo.git'
+    targetRevision: 'main'
+  project: 'default'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
