@@ -51,12 +51,18 @@ Replace the example chart above with any chart you need.
 kubectl create namespace argocd  # if you haven’t already
 kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
+# Get default pw from powershell
+```
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | %{[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_))}
+```
 
+# (Optional) Update argocd to use nodeports
 - Expose the argocd-server service using NodePorts
   ```
   kubectl edit svc argocd-server -n argocd
   ```
-- Update the spec to to point to the NodePorts set in the cluster config and the type to a NodePort
+- Update the spec to to point to the NodePorts set in the cluster config and the type to a NodePort.
+  - Node: The ports need to exist on the cluster
   ```
     ports:
   - name: http
@@ -103,6 +109,7 @@ To recreate the cluster using this config:
 kind delete cluster --name kind-demo-cluster
 kind create cluster --config .\docker-desktop-cluster\cluster\kind-config.yaml --name kind-demo-cluster
 ```
+
 ## Tearing down the cluster 🧹
 
 ```powershell
