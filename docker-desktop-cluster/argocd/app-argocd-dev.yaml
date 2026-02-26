@@ -9,8 +9,6 @@ spec:
     namespace: 'dev'
     server: 'https://kubernetes.default.svc'
   source:
-    directory:
-      recurse: true
     helm:
       valueFiles:
         - values.yaml
