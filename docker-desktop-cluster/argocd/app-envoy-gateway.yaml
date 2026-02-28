@@ -9,13 +9,6 @@ spec:
   - chart: gateway-helm
     repoURL: docker.io/envoyproxy
     targetRevision: v1.7.0
-    helm:
-      values: |
-        service:
-          type: NodePort
-          nodePorts:
-            http: 30000
-    path: 'docker-desktop-cluster/envoy-gateway'
   destination:
     namespace: envoy-gateway-system
     server: https://kubernetes.default.svc
