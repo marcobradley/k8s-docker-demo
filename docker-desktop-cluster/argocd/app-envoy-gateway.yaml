@@ -11,7 +11,8 @@ spec:
     targetRevision: v1.7.0
     helm:
       valueFiles:
-      - $values/docker-desktop-cluster/envoy-gateway/values.yaml
+        - values.yaml
+    path: 'docker-desktop-cluster/envoy-gateway'
   - repoURL: git@github.com:marcobradley/k8s-docker-demo.git
     targetRevision: main
     ref: values
