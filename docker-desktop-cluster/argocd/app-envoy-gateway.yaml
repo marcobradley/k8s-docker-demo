@@ -5,10 +5,16 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    chart: gateway-helm
+  sources:
+  - chart: gateway-helm
     repoURL: docker.io/envoyproxy
     targetRevision: v1.7.0
+    helm:
+      valueFiles:
+      - $values/docker-desktop-cluster/envoy-gateway/values.yaml
+  - repoURL: git@github.com:marcobradley/k8s-docker-demo.git
+    targetRevision: main
+    ref: values
   destination:
     namespace: envoy-gateway-system
     server: https://kubernetes.default.svc
