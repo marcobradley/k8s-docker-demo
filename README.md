@@ -219,6 +219,7 @@ curl.exe http://localhost:30000/songs
 If the route is accepted but traffic fails, confirm:
 
 - `kind` config maps host `30000 -> 30000` in `docker-desktop-cluster/cluster/kind-config.yaml`.
+- The `k8s-demo-dev` Argo CD application has been synced/applied so that the `dev` namespace, `HTTPRoute`, and `go-api-svc` Service are created.
 - `HTTPRoute` backend service (`go-api-svc`) exists in namespace `dev`.
 - `Gateway` listener has `allowedRoutes.namespaces.from: All` for cross-namespace routes.
 
