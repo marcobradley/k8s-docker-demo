@@ -191,7 +191,7 @@ This repo uses an `EnvoyProxy` custom resource to control how Envoy Gateway expo
 
 Relevant manifests:
 
-- `docker-desktop-cluster/cluster-gateway/templates/cluster-gateway`
+- `docker-desktop-cluster/cluster-gateway/templates/cluster-gateway` (Helm template without `.yaml` extension defining the `GatewayClass`)
 - `docker-desktop-cluster/cluster-gateway/templates/proxy-config.yaml`
 - `docker-desktop-cluster/cluster-gateway/templates/gateway.yaml`
 - `docker-desktop-cluster/k8s-demo/templates/http-route.yaml`
