@@ -181,6 +181,47 @@ spec:
 
 See [Gateway API documentation](https://gateway-api.sigs.k8s.io/) for more details on available resources and configuration options.
 
+### EnvoyProxy configuration (NodePort 30000)
+
+This repo uses an `EnvoyProxy` custom resource to control how Envoy Gateway exposes the generated data-plane Service.
+
+- `GatewayClass` `cluster-gateway` references an `EnvoyProxy` via `parametersRef`.
+- `EnvoyProxy` `custom-proxy-config` sets the Envoy Service type to `NodePort`.
+- A service patch pins the HTTP listener NodePort to `30000`.
+
+Relevant manifests:
+
+- `docker-desktop-cluster/cluster-gateway/templates/cluster-gateway`
+- `docker-desktop-cluster/cluster-gateway/templates/proxy-config.yaml`
+- `docker-desktop-cluster/cluster-gateway/templates/gateway.yaml`
+- `docker-desktop-cluster/cluster-gateway/templates/http-route.yaml`
+
+Apply/sync the `cluster-gateway` Argo CD application, then validate:
+
+```powershell
+kubectl get gatewayclass cluster-gateway -o yaml
+kubectl get envoyproxy -n envoy-gateway-system custom-proxy-config -o yaml
+kubectl get svc -n envoy-gateway-system
+```
+
+You should see the generated Envoy Service with port mapping similar to:
+
+```text
+8080:30000/TCP
+```
+
+Then test the route:
+
+```powershell
+curl.exe http://localhost:30000/songs
+```
+
+If the route is accepted but traffic fails, confirm:
+
+- `kind` config maps host `30000 -> 30000` in `docker-desktop-cluster/cluster/kind-config.yaml`.
+- `HTTPRoute` backend service (`go-api-svc`) exists in namespace `dev`.
+- `Gateway` listener has `allowedRoutes.namespaces.from: All` for cross-namespace routes.
+
 ## Tearing down the cluster 🧹
 
 ```powershell
