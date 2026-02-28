@@ -187,7 +187,7 @@ This repo uses an `EnvoyProxy` custom resource to control how Envoy Gateway expo
 
 - `GatewayClass` `cluster-gateway` references an `EnvoyProxy` via `parametersRef`.
 - `EnvoyProxy` `custom-proxy-config` sets the Envoy Service type to `NodePort`.
-- A service patch pins the HTTP listener NodePort to `30000`.
+- A Service patch pins the Envoy data-plane Service's NodePort for the HTTP listener port to `30000`.
 
 Relevant manifests:
 
