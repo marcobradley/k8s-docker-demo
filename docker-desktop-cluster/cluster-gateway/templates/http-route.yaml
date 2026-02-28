@@ -6,8 +6,11 @@ spec:
   parentRefs:
   - name: demo-gateway
     sectionName: http
-    rules:
-      backendRefs:
-        - name: go-api-svc
-          weight: 1
-          port: 80
+  rules:
+  - matches:
+      - path:
+          value: "/songs"
+    backendRefs:
+      - name: go-api-svc
+        weight: 1
+        port: 80
