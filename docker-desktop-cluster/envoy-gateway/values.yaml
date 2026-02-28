@@ -1,2 +1,0 @@
-service.type: "NodePort"
-service.nodePorts.http: 30000
