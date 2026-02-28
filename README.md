@@ -196,7 +196,7 @@ Relevant manifests:
 - `docker-desktop-cluster/cluster-gateway/templates/gateway.yaml`
 - `docker-desktop-cluster/k8s-demo/templates/http-route.yaml`
 
-Apply/sync the `cluster-gateway` Argo CD application, then validate:
+Validate the changes:
 
 ```powershell
 kubectl get gatewayclass cluster-gateway -o yaml
