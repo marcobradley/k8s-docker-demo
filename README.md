@@ -229,9 +229,36 @@ If the route is accepted but traffic fails, confirm:
 kind delete cluster --name kind-demo-cluster
 ```
 
+## Setting up a local k3d cluster 🐳
+
+This repository also includes a k3d cluster manifest:
+
+- `k3d-cluster/cluster/k3d-config.yaml`
+
+Create the cluster from this config:
+
+```powershell
+k3d cluster create --config .\k3d-cluster\cluster\k3d-config.yaml
+```
+
+For the k3d flow, Traefik is enabled by default and the demo API is exposed via Kubernetes `Ingress` on `/songs` through the k3d load balancer port mapping (`127.0.0.1:8080 -> :80`).
+
+Verify access:
+
+```powershell
+kubectl config get-contexts
+kubectl cluster-info --context k3d-demo-k3-cluster
+```
+
+Delete the cluster when finished:
+
+```powershell
+k3d cluster delete demo-k3-cluster
+```
+
 ## Notes 📝
 
-* You do not need a remote Kubernetes provider; everything runs locally inside Docker Desktop.
+* You do not need a remote Kubernetes provider; everything runs locally using a Docker-compatible engine (Docker Desktop, Rancher Desktop with `dockerd`, etc.).
 * If you have existing Kubernetes contexts, kind will add a `kind-<name>` context, e.g. `kind-demo`.
 * Helm communicates over the kubeconfig from `kubectl` and therefore automatically targets the active context.
 

@@ -1,0 +1,11 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: demo-k3-cluster
+image: rancher/k3s:v1.31.1-k3s1
+servers: 1
+agents: 1
+ports:
+  - port: 127.0.0.1:8080:80
+    nodeFilters:
+      - loadbalancer
