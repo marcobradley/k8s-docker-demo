@@ -89,6 +89,7 @@ This repository includes a `kind` cluster configuration that creates a single co
 To recreate the cluster using this config:
 
 ```powershell
+kind delete cluster --name kind-demo-cluster
 kind create cluster --config .\docker-desktop-cluster\cluster\kind-config.yaml --name kind-demo-cluster
 ```
 
