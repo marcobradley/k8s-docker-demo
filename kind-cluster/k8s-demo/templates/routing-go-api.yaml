@@ -11,5 +11,5 @@ spec:
             type: PathPrefix
             value: /songs
       backendRefs:
-        - name: go-api-svc 
+        - name: go-api-svc
           port: 8080

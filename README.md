@@ -29,15 +29,16 @@ Before you begin, ensure your local machine meets the following requirements:
 
 ### kind-cluster resources
 
-- `docker-desktop-cluster/cluster/kind-config.yaml` – kind cluster configuration
-- `docker-desktop-cluster/argocd/` – Argo CD application manifests for the kind flow
-- `docker-desktop-cluster/k8s-demo/` – demo Helm chart/manifests used by the kind flow
-- `docker-desktop-cluster/cluster-gateway/` – Gateway API/Envoy gateway resources for kind
+- `kind-cluster/cluster/kind-config.yaml` – kind cluster configuration
+- `kind-cluster/argocd/` – Argo CD application manifests for the kind flow
+- `kind-cluster/k8s-demo/` – demo Helm chart/manifests used by the kind flow
+- `kind-cluster/cluster-gateway/` – Gateway API/Envoy gateway resources for kind
 
 ### k3d-cluster resources
 
 - `k3d-cluster/cluster/config.yaml` – k3d cluster configuration
-- `k3d-cluster/argocd/` – Argo CD manifests for the k3d flow
+- `k3d-cluster/argocd/` – Argo CD Application manifests for the k3d flow (core + workloads)
+- `k3d-cluster/argocd-core/` – Argo CD core runtime manifests (ingress + cmd params)
 - `k3d-cluster/api-demo/` – Helm chart/manifests for apis hosted in the cluster
 
 ## kind-specific setup & resources 🔧
@@ -77,7 +78,7 @@ Replace the example chart above with any chart you need.
 
 This repository includes a `kind` cluster configuration that creates a single control-plane node and maps host ports so an ingress controller can bind to the host HTTP/S ports.
 
-- **File:** `docker-desktop-cluster/cluster/kind-config.yaml`
+- **File:** `kind-cluster/cluster/kind-config.yaml`
 - **Cluster name:** `kind-demo-cluster` (configured via `name:` in the file)
 - **Host port mappings:** `30000 -> 30000` on the control-plane node (`extraPortMappings`) ([kind documentation](https://kind.sigs.k8s.io/docs/user/using-wsl2/#accessing-a-kubernetes-service-running-in-wsl2)).
 
@@ -90,7 +91,7 @@ To recreate the cluster using this config:
 
 ```powershell
 kind delete cluster --name kind-demo-cluster
-kind create cluster --config .\docker-desktop-cluster\cluster\kind-config.yaml --name kind-demo-cluster
+kind create cluster --config .\kind-cluster\cluster\kind-config.yaml --name kind-demo-cluster
 ```
 
 ### kind: Deploying Envoy Gateway via Argo CD 🚪
@@ -102,7 +103,7 @@ This repository includes an Argo CD Application manifest that deploys **Envoy Ga
 Apply the Envoy Gateway application manifest via Argo CD:
 
 ```powershell
-kubectl apply -f .\docker-desktop-cluster\argocd\app-envoy-gateway.yaml
+kubectl apply -f .\kind-cluster\argocd\app-envoy-gateway.yaml
 ```
 
 Argo CD will detect the application and begin syncing. Check the status:
@@ -169,10 +170,10 @@ This repo uses an `EnvoyProxy` custom resource to control how Envoy Gateway expo
 
 Relevant manifests:
 
-- `docker-desktop-cluster/cluster-gateway/templates/cluster-gateway` (Helm template without `.yaml` extension defining the `GatewayClass`)
-- `docker-desktop-cluster/cluster-gateway/templates/proxy-config.yaml`
-- `docker-desktop-cluster/cluster-gateway/templates/gateway.yaml`
-- `docker-desktop-cluster/k8s-demo/templates/http-route.yaml`
+- `kind-cluster/cluster-gateway/templates/cluster-gateway` (Helm template without `.yaml` extension defining the `GatewayClass`)
+- `kind-cluster/cluster-gateway/templates/proxy-config.yaml`
+- `kind-cluster/cluster-gateway/templates/gateway.yaml`
+- `kind-cluster/k8s-demo/templates/http-route.yaml`
 
 Validate the changes:
 
@@ -196,8 +197,8 @@ curl.exe http://localhost:30000/songs
 
 If the route is accepted but traffic fails, confirm:
 
-- `kind` config maps host `30000 -> 30000` in `docker-desktop-cluster/cluster/kind-config.yaml`.
-- The `k8s-demo-dev` Argo CD application has been synced/applied so that the `dev` namespace, `HTTPRoute`, and `go-api-svc` Service are created.
+- `kind` config maps host `30000 -> 30000` in `kind-cluster/cluster/kind-config.yaml`.
+- The `argocd-dev-kind` Argo CD application has been synced/applied so that the `dev` namespace, `HTTPRoute`, and `go-api-svc` Service are created.
 - `HTTPRoute` backend service (`go-api-svc`) exists in namespace `dev`.
 - `Gateway` listener has `allowedRoutes.namespaces.from: All` for cross-namespace routes.
 
@@ -248,6 +249,22 @@ kubectl create namespace argocd  # if you haven’t already
 kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
+#### k3d split: core app + workloads app
+
+Apply Argo CD core first (manages `argocd-cmd-params-cm` + ingress), then workloads:
+
+```powershell
+kubectl apply -f .\k3d-cluster\argocd\app-argocd-core.yaml
+kubectl apply -f .\k3d-cluster\argocd\app-argocd-dev.yaml
+```
+
+After the first core sync, restart `argocd-server` once so `server.insecure=true` is picked up:
+
+```powershell
+kubectl rollout restart deployment argocd-server -n argocd
+kubectl rollout status deployment argocd-server -n argocd --timeout=180s
+```
+
 #### Get default pw from powershell
 
 ```
@@ -274,7 +291,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
   type: NodePort
   ```
 
-The GitHub Actions workflow that runs on pull requests validates Kubernetes YAML manifests under `docker-desktop-cluster/k8s-demo/*.yaml`, helping catch syntax issues in the demo resources.
+The GitHub Actions workflow that runs on pull requests validates YAML and Helm charts under both `kind-cluster/**` and `k3d-cluster/**`, helping catch manifest and chart issues early.
 
 ### Envoy Gateway Setup (Kind Cluster)
 
@@ -291,6 +308,40 @@ kubectl apply --server-side -f https://github.com/envoyproxy/gateway/releases/do
 * Helm communicates over the kubeconfig from `kubectl` and therefore automatically targets the active context.
 
 Feel free to adapt the configuration and manifests for your own experiments.
+
+## Run GitAction checks locally
+
+Prerequisites for local checks:
+
+- `yamllint` installed and available on `PATH`
+- `helm` installed and available on `PATH`
+- `nodejs` installed and available on `PATH`
+
+Install `yamllint` (Windows PowerShell):
+
+```powershell
+py -m pip install --user yamllint
+yamllint --version
+```
+
+If `yamllint` is not recognized, either open a new terminal or run it via Python:
+
+```powershell
+py -m yamllint --version
+```
+
+Run all local checks:
+
+```powershell
+npm run check:local
+```
+
+Run checks individually:
+
+```powershell
+npm run check:yaml
+npm run check:helm
+```
 
 ## CI / Release pipeline 🔁
 

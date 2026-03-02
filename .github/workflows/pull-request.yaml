@@ -9,5 +9,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate Yaml Files
-        run: yamllint -c ${{ github.workspace }}/.yamllint ${{ github.workspace }}/docker-desktop-cluster/k8s-demo/*.yaml
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Validate YAML files (kind + k3d)
+        run: |
+          yamllint -c .yamllint kind-cluster k3d-cluster
+
+      - name: Lint Helm charts (kind + k3d)
+        run: |
+          helm lint kind-cluster/k8s-demo
+          helm lint kind-cluster/cluster-gateway
+          helm lint k3d-cluster/api-demo

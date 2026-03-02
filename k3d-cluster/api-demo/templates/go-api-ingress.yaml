@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Values.go_api.name }}-ingress
-  namespace: {{ .Values.go_api.namespace }}
+  name: "{{ .Values.go_api.name }}-ingress"
+  namespace: "{{ .Values.go_api.namespace }}"
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
@@ -14,6 +14,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.go_api.service.name }}
+                name: "{{ .Values.go_api.service.name }}"
                 port:
-                  number: {{ .Values.go_api.service.port }}
+                  number: !!int "{{ .Values.go_api.service.port }}"

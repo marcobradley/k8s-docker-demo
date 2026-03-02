@@ -2,6 +2,11 @@
   "name": "k8s-docker-demo",
   "version": "0.0.0-development",
   "private": true,
+  "scripts": {
+    "check:yaml": "yamllint -c .yamllint kind-cluster k3d-cluster",
+    "check:helm": "helm lint kind-cluster/k8s-demo && helm lint kind-cluster/cluster-gateway && helm lint k3d-cluster/api-demo",
+    "check:local": "npm run check:yaml && npm run check:helm"
+  },
   "release": {
     "branches": ["main"]
   }
