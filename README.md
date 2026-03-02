@@ -79,7 +79,7 @@ This repository includes a `kind` cluster configuration that creates a single co
 
 - **File:** `docker-desktop-cluster/cluster/kind-config.yaml`
 - **Cluster name:** `kind-demo-cluster` (configured via `name:` in the file)
-- **Host port mappings:** `30000 -> 30000, 30080 -> 30080, 30443 -> 30443` on the control-plane node (`extraPortMappings`) ([kind documentation](https://kind.sigs.k8s.io/docs/user/using-wsl2/#accessing-a-kubernetes-service-running-in-wsl2)).
+- **Host port mappings:** `30000 -> 30000` on the control-plane node (`extraPortMappings`) ([kind documentation](https://kind.sigs.k8s.io/docs/user/using-wsl2/#accessing-a-kubernetes-service-running-in-wsl2)).
 
 ### Prerequisites
 
