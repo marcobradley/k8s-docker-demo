@@ -1,6 +1,6 @@
-# example-kind
+# demo clusters
 
-This repository contains manifests and configuration for a simple Kubernetes demo using `kind`, `k3d`, and `helm` on Windows.
+This repository contains manifests and configuration for a simple Kubernetes demos using `kind`, `k3d`, and `helm` on Windows.
 
 ## Global setup (shared by kind + k3d) 🌐
 
@@ -15,9 +15,29 @@ Before you begin, ensure your local machine meets the following requirements:
   - **k3d** installed globally. You can install via `choco install k3d` or follow the instructions at https://k3d.io/.
 4. **kubectl** CLI on your PATH. You can install/upgrade via `choco install kubernetes-cli`.
 5. **Helm** installed globally. Install via `choco install kubernetes-helm` or from https://helm.sh/docs/intro/install/.
-6. **Go** (the language) installed globally. Install via `choco install golang` (not the JetBrains IDE `Goland`).
 
 > 💡 All commands in this readme are meant to be run from a PowerShell terminal.
+
+## Manifests & charts in this repository 📁
+
+### Global resources (shared by kind + k3d)
+
+- `README.md` – setup and workflow documentation
+- `LICENSE` – project license
+- `package.json` – repo-level Node metadata/scripts
+
+### kind-cluster resources
+
+- `docker-desktop-cluster/cluster/kind-config.yaml` – kind cluster configuration
+- `docker-desktop-cluster/argocd/` – Argo CD application manifests for the kind flow
+- `docker-desktop-cluster/k8s-demo/` – demo Helm chart/manifests used by the kind flow
+- `docker-desktop-cluster/cluster-gateway/` – Gateway API/Envoy gateway resources for kind
+
+### k3d-cluster resources
+
+- `k3d-cluster/cluster/config.yaml` – k3d cluster configuration
+- `k3d-cluster/argocd/` – Argo CD manifests for the k3d flow
+- `k3d-cluster/api-demo/` – Helm chart/manifests for apis hosted in the cluster
 
 ## kind-specific setup & resources 🔧
 
@@ -37,7 +57,7 @@ kubectl cluster-info --context kind-kind-demo-cluster
 
 `kubectl` is provided by `kind`; ensure it’s on your PATH after installing kind.
 
-### Global: Using Helm with the cluster 🚀
+## Global: Using Helm with the cluster 🚀
 
 Once the cluster is up you can use Helm to deploy charts. For example:
 
@@ -52,66 +72,7 @@ helm install nginx-ingress stable/nginx-ingress \
 
 Replace the example chart above with any chart you need.
 
-### Global: Setup Argocd and Expose UI on NodePort
-```
-kubectl create namespace argocd  # if you haven’t already
-kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-```
-# Get default pw from powershell
-```
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | %{[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_))}
-```
-
-# (Optional for kind setup) Update argocd to use nodeports
-- Expose the argocd-server service using NodePorts
-  ```
-  kubectl edit svc argocd-server -n argocd
-  ```
-- Update the spec to to point to the NodePorts set in the cluster config and the type to a NodePort.
-  - Node: The ports need to exist on the cluster
-  ```
-    ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 8080
-    nodePort: 30080
-  - name: https
-    port: 443
-    protocol: TCP
-    targetPort: 8080
-    nodePort: 30443
-  selector:
-    app.kubernetes.io/name: argocd-server
-  sessionAffinity: None
-  type: NodePort
-  ```
-
-## Manifests & charts in this repository 📁
-
-### Global resources (shared by kind + k3d)
-
-- `README.md` – setup and workflow documentation
-- `LICENSE` – project license
-- `package.json` – repo-level Node metadata/scripts
-
-### kind-specific resources
-
-- `docker-desktop-cluster/cluster/kind-config.yaml` – kind cluster configuration
-- `docker-desktop-cluster/argocd/` – Argo CD application manifests for the kind flow
-- `docker-desktop-cluster/k8s-demo/` – demo Helm chart/manifests used by the kind flow
-- `docker-desktop-cluster/cluster-gateway/` – Gateway API/Envoy gateway resources for kind
-
-### k3d-specific resources
-
-- `k3d-cluster/cluster/k3d-config.yaml` – k3d cluster configuration
-- `k3d-cluster/argocd/` – Argo CD manifests for the k3d flow
-- `k3d-cluster/api-demo/` – demo Helm chart/manifests for k3d (Ingress + Traefik)
-- `k3d-cluster/cluster-gateway/` – legacy Gateway API/Envoy resources (not required for Traefik flow)
-
-The GitHub Actions workflow that runs on pull requests validates YAML files; it now targets the chart directory and skips any files containing Helm template markers (`{{…}}`).  This keeps the linter from choking on templated manifests while still catching syntax problems in the top‑level chart files.
-
-### kind: Cluster config 🧩
+## kind: Cluster config 🧩
 
 This repository includes a `kind` cluster configuration that creates a single control-plane node and maps host ports so an ingress controller can bind to the host HTTP/S ports.
 
@@ -119,21 +80,20 @@ This repository includes a `kind` cluster configuration that creates a single co
 - **Cluster name:** `kind-demo-cluster` (configured via `name:` in the file)
 - **Host port mappings:** `30000 -> 30000, 30080 -> 30080, 30443 -> 30443` on the control-plane node (`extraPortMappings`) ([kind documentation](https://kind.sigs.k8s.io/docs/user/using-wsl2/#accessing-a-kubernetes-service-running-in-wsl2)).
 
+### Prerequisites
+
+- Argo CD must be installed in the cluster (see **Argocd Setup** section in the CRD section).
+- Gateway API CRDs should already be installed (see **Envoy Gateway Setup** in the CRD section).
+
 To recreate the cluster using this config:
 
 ```powershell
-kind delete cluster --name kind-demo-cluster
 kind create cluster --config .\docker-desktop-cluster\cluster\kind-config.yaml --name kind-demo-cluster
 ```
 
 ### kind: Deploying Envoy Gateway via Argo CD 🚪
 
 This repository includes an Argo CD Application manifest that deploys **Envoy Gateway**, a modern, feature-rich ingress and gateway controller based on the Gateway API standard.
-
-### Prerequisites
-
-- Argo CD must be installed in the cluster (see **Setup Argocd** section above).
-- Gateway API CRDs should already be installed (done as part of standard Argo CD setup).
 
 ### Deploy Envoy Gateway
 
@@ -251,12 +211,12 @@ kind delete cluster --name kind-demo-cluster
 
 This repository also includes a k3d cluster manifest:
 
-- `k3d-cluster/cluster/k3d-config.yaml`
+- `k3d-cluster/cluster/config.yaml`
 
 Create the cluster from this config:
 
 ```powershell
-k3d cluster create --config .\k3d-cluster\cluster\k3d-config.yaml
+k3d cluster create --config .\k3d-cluster\cluster\config.yaml
 ```
 
 For the k3d flow, Traefik is enabled by default and the demo API is exposed via Kubernetes `Ingress` on `/songs` through the k3d load balancer port mapping (`127.0.0.1:8080 -> :80`).
@@ -272,6 +232,59 @@ Delete the cluster when finished:
 
 ```powershell
 k3d cluster delete demo-k3-cluster
+```
+## CRDs
+
+These are the Custom Resources used in the k3 and kind clusters.
+
+### Argocd Setup
+
+#### Installing the CRD into the cluster
+
+```
+kubectl create namespace argocd  # if you haven’t already
+kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+#### Get default pw from powershell
+
+```
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | %{[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_))}
+```
+
+#### (Optional setup for kind) Update argocd to use nodeports
+- Expose the argocd-server service using NodePorts
+  ```
+  kubectl edit svc argocd-server -n argocd
+  ```
+- Update the spec to to point to the NodePorts set in the cluster config and the type to a NodePort.
+  - Node: The ports need to exist on the cluster
+  ```
+    ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+    nodePort: 30080
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 8080
+    nodePort: 30443
+  selector:
+    app.kubernetes.io/name: argocd-server
+  sessionAffinity: None
+  type: NodePort
+  ```
+
+The GitHub Actions workflow that runs on pull requests validates YAML files; it now targets the chart directory and skips any files containing Helm template markers (`{{…}}`).  This keeps the linter from choking on templated manifests while still catching syntax problems in the top‑level chart files.
+
+### Envoy Gateway Setup (Kind Cluster)
+
+Instructions can be found at [Envoy Gateway](https://gateway.envoyproxy.io/docs/install/install-yaml/)
+
+```
+kubectl apply --server-side -f https://github.com/envoyproxy/gateway/releases/download/v1.7.0/install.yaml
 ```
 
 ## Notes 📝
