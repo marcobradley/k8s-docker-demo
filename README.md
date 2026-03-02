@@ -234,13 +234,13 @@ Delete the cluster when finished:
 ```powershell
 k3d cluster delete demo-k3-cluster
 ```
-## CRDs
+## Platform add-ons (Argo CD, Envoy Gateway, etc.)
 
-These are the Custom Resources used in the k3 and kind clusters.
+These are the platform add-ons used in the k3 and kind clusters.
 
 ### Argocd Setup
 
-#### Installing the CRD into the cluster
+#### Installing Argo CD into the cluster
 
 ```
 kubectl create namespace argocd  # if you haven’t already
@@ -278,7 +278,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
   type: NodePort
   ```
 
-The GitHub Actions workflow that runs on pull requests validates YAML files; it now targets the chart directory and skips any files containing Helm template markers (`{{…}}`).  This keeps the linter from choking on templated manifests while still catching syntax problems in the top‑level chart files.
+The GitHub Actions workflow that runs on pull requests validates Kubernetes YAML manifests under `docker-desktop-cluster/k8s-demo/*.yaml`, helping catch syntax issues in the demo resources.
 
 ### Envoy Gateway Setup (Kind Cluster)
 
