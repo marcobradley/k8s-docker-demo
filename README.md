@@ -267,12 +267,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
     port: 80
     protocol: TCP
     targetPort: 8080
-    nodePort: 30080
-  - name: https
-    port: 443
-    protocol: TCP
-    targetPort: 8080
-    nodePort: 30443
+    nodePort: 30000
   selector:
     app.kubernetes.io/name: argocd-server
   sessionAffinity: None
