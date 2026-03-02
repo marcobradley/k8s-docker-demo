@@ -1,0 +1,13 @@
+go-api:
+  name: go-api
+  namespace:
+  replicaCount: 1
+  image:
+    repository: 'marcobradley/go-api'
+    tag: 'latest'
+    pullPolicy: IfNotPresent
+  service:
+    name: go-api-svc
+    type: ClusterIP
+    port: 80
+    targetPort: 8080

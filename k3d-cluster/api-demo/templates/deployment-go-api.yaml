@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: go-api-deployment
+  name: {{ .Values.go-api.name }}-deployment
   namespace: {{ .Values.go-api.namespace }}
 spec:
   replicas: {{ .Values.go-api.replicaCount }}
   selector:
     matchLabels:
-      app: go-api
+      app: {{ .Values.go-api.name }}
   strategy: {}
   template:
     metadata:
       labels:
-        app: go-api
+        app: {{ .Values.go-api.name }}
     spec:
       containers:
       - image: {{ .Values.go-api.image.repository }}:{{ .Values.go-api.image.tag }}
-        name: go-api
+        name: {{ .Values.go-api.name }}
         ports:
-        - containerPort: {{ .Values.go-api.service.port }}
+        - containerPort: {{ .Values.go-api.service.targetPort }}
         resources:
           requests:
             memory: "64Mi"

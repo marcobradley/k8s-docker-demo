@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-api-svc
-  namespace: dev
+  name: {{ .Values.go-api.service.name }}
+  namespace: {{ .Values.go-api.namespace }}
 spec:
   ports:
   - name: http
-    port: 80
+    port: {{ .Values.go-api.service.port }}
     protocol: TCP
-    targetPort: 8080
+    targetPort: {{ .Values.go-api.service.targetPort }}
   selector:
-    app: go-api
+    app: {{ .Values.go-api.name }}
 status:
   loadBalancer: {}
