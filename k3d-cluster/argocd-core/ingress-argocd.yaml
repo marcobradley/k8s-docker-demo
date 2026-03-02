@@ -12,19 +12,8 @@ spec:
   tls:
     - hosts:
         - argocd.localhost
-        - localhost
   rules:
     - host: argocd.localhost
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: argocd-server
-                port:
-                  number: 80
-    - host: localhost
       http:
         paths:
           - path: /
