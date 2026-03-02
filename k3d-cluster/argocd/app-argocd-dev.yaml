@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: 'workloads-dev-k3d'
+  name: 'app-argocd-dev'
   namespace: argocd
 spec:
   destination:
