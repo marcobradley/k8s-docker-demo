@@ -13,7 +13,7 @@ spec:
       valueFiles:
         - values.yaml
     path: 'docker-desktop-cluster/cluster-gateway'
-    repoURL: 'git@github.com:marcobradley/k8s-docker-demo.git'
+    repoURL: 'git@github.com:marcobradley/local-kubernetes-cluster-demo.git'
     targetRevision: 'main'
   project: 'default'
   syncPolicy:

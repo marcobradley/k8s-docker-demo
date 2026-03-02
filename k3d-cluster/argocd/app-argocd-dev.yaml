@@ -14,7 +14,7 @@ spec:
         - values.yaml
         - values-dev.yaml
     path: 'k3d-cluster/api-demo'
-    repoURL: 'git@github.com:marcobradley/k8s-docker-demo.git'
+    repoURL: 'git@github.com:marcobradley/local-kubernetes-cluster-demo.git'
     targetRevision: 'main'
   project: 'default'
   syncPolicy:
