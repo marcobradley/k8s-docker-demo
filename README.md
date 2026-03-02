@@ -1,21 +1,27 @@
 # example-kind
 
-This repository contains manifests and configuration for a simple Kubernetes demo using `kind`, `docker-desktop`, and `helm` on Windows.
+This repository contains manifests and configuration for a simple Kubernetes demo using `kind`, `k3d`, and `helm` on Windows.
 
-## Prerequisites ✅
+## Global setup (shared by kind + k3d) 🌐
+
+### Prerequisites ✅
 
 Before you begin, ensure your local machine meets the following requirements:
 
 1. **Windows 10/11** with WSL2 enabled (Cgroup v2 recommended).
-2. **Docker Desktop** installed and running. Set the backend to WSL2 (if applicable) and make sure the built-in Kubernetes is **disabled** — `kind` will create/manage clusters for you.
-3. **kind** (Kubernetes IN Docker) installed globally. You can install via `choco install kind` or follow the instructions at https://kind.sigs.k8s.io/.
-4. **kubectl** CLI on your PATH. The `kind` installer usually drops a copy in the same directory, but if you have other contexts you may want to install/upgrade via `choco install kubernetes-cli`.
+2. **A Docker-compatible container engine** installed and running (Docker Desktop, Rancher Desktop with `dockerd`, etc.). Set the backend to WSL2 (if applicable) and make sure any built-in Kubernetes is **disabled**.
+3. **Distributions** 
+  - **kind** (Kubernetes IN Docker) installed globally. You can install via `choco install kind` or follow the instructions at https://kind.sigs.k8s.io/.
+  - **k3d** installed globally. You can install via `choco install k3d` or follow the instructions at https://k3d.io/.
+4. **kubectl** CLI on your PATH. You can install/upgrade via `choco install kubernetes-cli`.
 5. **Helm** installed globally. Install via `choco install kubernetes-helm` or from https://helm.sh/docs/intro/install/.
 6. **Go** (the language) installed globally. Install via `choco install golang` (not the JetBrains IDE `Goland`).
 
 > 💡 All commands in this readme are meant to be run from a PowerShell terminal.
 
-## Setting up a local kind cluster 🔧
+## kind-specific setup & resources 🔧
+
+### Setting up a local kind cluster
 ```go
 // Installing Cloud Provider KIND (optional helper)
 go install sigs.k8s.io/cloud-provider-kind@latest
@@ -31,7 +37,7 @@ kubectl cluster-info --context kind-kind-demo-cluster
 
 `kubectl` is provided by `kind`; ensure it’s on your PATH after installing kind.
 
-## Using Helm with the cluster 🚀
+### Global: Using Helm with the cluster 🚀
 
 Once the cluster is up you can use Helm to deploy charts. For example:
 
@@ -46,7 +52,7 @@ helm install nginx-ingress stable/nginx-ingress \
 
 Replace the example chart above with any chart you need.
 
-## Setup Argocd and Expose UI on NodePort
+### Global: Setup Argocd and Expose UI on NodePort
 ```
 kubectl create namespace argocd  # if you haven’t already
 kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
@@ -56,7 +62,7 @@ kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubuse
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | %{[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_))}
 ```
 
-# (Optional) Update argocd to use nodeports
+# (Optional for kind setup) Update argocd to use nodeports
 - Expose the argocd-server service using NodePorts
   ```
   kubectl edit svc argocd-server -n argocd
@@ -83,19 +89,29 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 ## Manifests & charts in this repository 📁
 
-- `docker-desktop-cluster/charts/k8s-demo/` – contains YAML manifests used in demonstrations and experiments:
-  - `deployment-nginx.yaml` – basic nginx deployment
-  - `ns-argocd.yaml` – namespace for Argo CD
-  - `svc-nginx.yaml` – service for nginx deployment
-  - `ingress.yaml` – ingress for the cluster
-- `docker-desktop-cluster/cluster`
-  - `kind-config.yaml` – config for the kind cluster
-- `docker-desktop-cluster/argocd`
-  - `app-argocd.yaml` – sample application manifest for Argo CD (templated via Helm values)
+### Global resources (shared by kind + k3d)
+
+- `README.md` – setup and workflow documentation
+- `LICENSE` – project license
+- `package.json` – repo-level Node metadata/scripts
+
+### kind-specific resources
+
+- `docker-desktop-cluster/cluster/kind-config.yaml` – kind cluster configuration
+- `docker-desktop-cluster/argocd/` – Argo CD application manifests for the kind flow
+- `docker-desktop-cluster/k8s-demo/` – demo Helm chart/manifests used by the kind flow
+- `docker-desktop-cluster/cluster-gateway/` – Gateway API/Envoy gateway resources for kind
+
+### k3d-specific resources
+
+- `k3d-cluster/cluster/k3d-config.yaml` – k3d cluster configuration
+- `k3d-cluster/argocd/` – Argo CD manifests for the k3d flow
+- `k3d-cluster/api-demo/` – demo Helm chart/manifests for k3d (Ingress + Traefik)
+- `k3d-cluster/cluster-gateway/` – legacy Gateway API/Envoy resources (not required for Traefik flow)
 
 The GitHub Actions workflow that runs on pull requests validates YAML files; it now targets the chart directory and skips any files containing Helm template markers (`{{…}}`).  This keeps the linter from choking on templated manifests while still catching syntax problems in the top‑level chart files.
 
-## Cluster config (`kind`) 🧩
+### kind: Cluster config 🧩
 
 This repository includes a `kind` cluster configuration that creates a single control-plane node and maps host ports so an ingress controller can bind to the host HTTP/S ports.
 
@@ -110,7 +126,7 @@ kind delete cluster --name kind-demo-cluster
 kind create cluster --config .\docker-desktop-cluster\cluster\kind-config.yaml --name kind-demo-cluster
 ```
 
-## Deploying Envoy Gateway via Argo CD 🚪
+### kind: Deploying Envoy Gateway via Argo CD 🚪
 
 This repository includes an Argo CD Application manifest that deploys **Envoy Gateway**, a modern, feature-rich ingress and gateway controller based on the Gateway API standard.
 
@@ -223,16 +239,45 @@ If the route is accepted but traffic fails, confirm:
 - `HTTPRoute` backend service (`go-api-svc`) exists in namespace `dev`.
 - `Gateway` listener has `allowedRoutes.namespaces.from: All` for cross-namespace routes.
 
-## Tearing down the cluster 🧹
+### kind: Tearing down the cluster 🧹
 
 ```powershell
 kind delete cluster --name kind-demo-cluster
 ```
 
+## k3d-specific setup & resources 🐳
+
+### Setting up a local k3d cluster
+
+This repository also includes a k3d cluster manifest:
+
+- `k3d-cluster/cluster/k3d-config.yaml`
+
+Create the cluster from this config:
+
+```powershell
+k3d cluster create --config .\k3d-cluster\cluster\k3d-config.yaml
+```
+
+For the k3d flow, Traefik is enabled by default and the demo API is exposed via Kubernetes `Ingress` on `/songs` through the k3d load balancer port mapping (`127.0.0.1:8080 -> :80`).
+
+Verify access:
+
+```powershell
+kubectl config get-contexts
+kubectl cluster-info --context k3d-demo-k3-cluster
+```
+
+Delete the cluster when finished:
+
+```powershell
+k3d cluster delete demo-k3-cluster
+```
+
 ## Notes 📝
 
-* You do not need a remote Kubernetes provider; everything runs locally inside Docker Desktop.
-* If you have existing Kubernetes contexts, kind will add a `kind-<name>` context, e.g. `kind-demo`.
+* You do not need a remote Kubernetes provider; everything runs locally using a Docker-compatible engine (Docker Desktop, Rancher Desktop with `dockerd`, etc.).
+* If you have existing Kubernetes contexts, kind and k3d will each add their own context names (for example `kind-<name>` and `k3d-<name>`).
 * Helm communicates over the kubeconfig from `kubectl` and therefore automatically targets the active context.
 
 Feel free to adapt the configuration and manifests for your own experiments.
