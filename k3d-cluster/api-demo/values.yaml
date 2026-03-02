@@ -3,7 +3,7 @@ go_api:
   namespace: dev
   replicaCount: 1
   image:
-    repository: 'marcobradley/go-api'
+    repository: 'mbradleyhome/demo-api'
     tag: 'latest'
     pullPolicy: IfNotPresent
   service:
