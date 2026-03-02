@@ -83,8 +83,8 @@ This repository includes a `kind` cluster configuration that creates a single co
 
 ### Prerequisites
 
-- Argo CD must be installed in the cluster (see **Argocd Setup** section in the CRD section).
-- Gateway API CRDs should already be installed (see **Envoy Gateway Setup** in the CRD section).
+- Argo CD must be installed in the cluster (see the **Argo CD Setup** section below).
+- Gateway API CRDs should already be installed (see the **Envoy Gateway Setup** section below).
 
 To recreate the cluster using this config:
 
