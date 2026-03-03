@@ -1,0 +1,53 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 'monitoring-k3d'
+  namespace: argocd
+spec:
+  destination:
+    namespace: 'monitoring'
+    server: 'https://kubernetes.default.svc'
+  source:
+    repoURL: 'https://prometheus-community.github.io/helm-charts'
+    chart: 'kube-prometheus-stack'
+    targetRevision: '58.6.0'
+    helm:
+      values: |
+        grafana:
+          adminPassword: admin
+          ingress:
+            enabled: true
+            ingressClassName: traefik
+            annotations:
+              kubernetes.io/ingress.class: traefik
+              traefik.ingress.kubernetes.io/router.entrypoints: websecure
+              traefik.ingress.kubernetes.io/router.tls: "true"
+            hosts:
+              - grafana.localhost
+            tls:
+              - hosts:
+                  - grafana.localhost
+        prometheus:
+          ingress:
+            enabled: true
+            ingressClassName: traefik
+            annotations:
+              kubernetes.io/ingress.class: traefik
+              traefik.ingress.kubernetes.io/router.entrypoints: websecure
+              traefik.ingress.kubernetes.io/router.tls: "true"
+            hosts:
+              - prometheus.localhost
+            paths:
+              - /
+            pathType: Prefix
+            tls:
+              - hosts:
+                  - prometheus.localhost
+  project: 'default'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
