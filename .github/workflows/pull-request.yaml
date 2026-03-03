@@ -22,7 +22,7 @@ jobs:
 
       - name: Validate YAML files
         run: |
-          yamllint -c .yamllint kind-cluster k3d-cluster
+          yamllint -c .yamllint k3d-cluster
 
       - name: Lint Helm charts
         run: |
