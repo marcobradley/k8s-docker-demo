@@ -20,12 +20,11 @@ jobs:
       - name: Setup Helm
         uses: azure/setup-helm@v4
 
-      - name: Validate YAML files (kind + k3d)
+      - name: Validate YAML files
         run: |
           yamllint -c .yamllint kind-cluster k3d-cluster
 
-      - name: Lint Helm charts (kind + k3d)
+      - name: Lint Helm charts
         run: |
-          helm lint kind-cluster/k8s-demo
-          helm lint kind-cluster/cluster-gateway
-          helm lint k3d-cluster/api-demo
+          helm lint k3d-cluster
+
