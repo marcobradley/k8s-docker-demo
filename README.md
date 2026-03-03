@@ -108,6 +108,12 @@ kubectl get application -n argocd monitoring-k3d
 kubectl get pods -n monitoring
 ```
 
+Monitoring Helm values are stored in:
+
+- `k3d-cluster/monitoring/values.yaml`
+
+Update that file to keep Grafana ingress, Prometheus ingress, datasource defaults, and admission webhook settings across fresh installs.
+
 Access endpoints (Traefik TLS / host port `8443`):
 
 - Grafana: `https://grafana.localhost:8443`

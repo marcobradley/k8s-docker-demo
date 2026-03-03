@@ -1,0 +1,43 @@
+grafana:
+  adminPassword: admin
+  additionalDataSources:
+    - name: Prometheus
+      type: prometheus
+      access: proxy
+      url: http://monitoring-k3d-kube-promet-prometheus.monitoring.svc.cluster.local:9090
+      isDefault: true
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    hosts:
+      - grafana.localhost
+    tls:
+      - hosts:
+          - grafana.localhost
+
+prometheusOperator:
+  admissionWebhooks:
+    enabled: false
+    patch:
+      enabled: false
+
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    hosts:
+      - prometheus.localhost
+    paths:
+      - /
+    pathType: Prefix
+    tls:
+      - hosts:
+          - prometheus.localhost
