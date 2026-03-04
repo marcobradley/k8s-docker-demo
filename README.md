@@ -76,6 +76,25 @@ Delete the cluster when finished:
 ```powershell
 k3d cluster delete demo-k3-cluster
 ```
+
+### Backup and restore (local k3d)
+
+This single-server k3d setup uses k3s sqlite datastore (not etcd). A helper script is included for consistent backups:
+
+```powershell
+.\scripts\backup-k3d-k3s.ps1
+```
+
+Include local-path PV data:
+
+```powershell
+.\scripts\backup-k3d-k3s.ps1 -IncludePvData
+```
+
+Restore runbook:
+
+- `docs/restore-k3d-k3s.md`
+
 ## Platform add-ons (Argo CD, Prometheus, Grafana, etc.)
 
 These are the platform add-ons used in the cluster.

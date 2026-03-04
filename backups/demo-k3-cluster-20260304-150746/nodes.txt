@@ -1,0 +1,3 @@
+﻿NAME                           STATUS   ROLES                  AGE    VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE           KERNEL-VERSION                     CONTAINER-RUNTIME
+k3d-demo-k3-cluster-agent-0    Ready    <none>                 2d1h   v1.31.1+k3s1   172.18.0.2    <none>        K3s v1.31.1+k3s1   6.6.87.2-microsoft-standard-WSL2   containerd://1.7.21-k3s2
+k3d-demo-k3-cluster-server-0   Ready    control-plane,master   2d1h   v1.31.1+k3s1   172.18.0.4    <none>        K3s v1.31.1+k3s1   6.6.87.2-microsoft-standard-WSL2   containerd://1.7.21-k3s2

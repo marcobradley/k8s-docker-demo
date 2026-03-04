@@ -1,0 +1,1144 @@
+﻿apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-03-04T19:59:04Z"
+    generateName: csharp-api-deployment-55986f4954-
+    labels:
+      app: csharp-api
+      pod-template-hash: 55986f4954
+    name: csharp-api-deployment-55986f4954-7n2tx
+    namespace: dev
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: csharp-api-deployment-55986f4954
+      uid: 103da351-4649-40ce-8cf8-1d32d2c94bbd
+    resourceVersion: "27252"
+    uid: bd421530-8634-45c8-82a1-8ba16047cb31
+  spec:
+    containers:
+    - image: mbradleyhome/csharp-api:latest
+      imagePullPolicy: Always
+      name: csharp-api
+      ports:
+      - containerPort: 5113
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+        requests:
+          cpu: 250m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-dcmk4
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-demo-k3-cluster-server-0
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-dcmk4
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T19:59:08Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T19:59:04Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T19:59:08Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T19:59:08Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T19:59:04Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://4be1bf7fd78ea6b4bee825cb8954a6d63b783e54cb9a63582e6141548b87cc03
+      image: docker.io/mbradleyhome/csharp-api:latest
+      imageID: docker.io/mbradleyhome/csharp-api@sha256:2484ad9db82a8f1a05e43e15415b262acac5cd3e4ca08eacb1284fd002ada288
+      lastState: {}
+      name: csharp-api
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-03-04T19:59:07Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-dcmk4
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 172.18.0.4
+    hostIPs:
+    - ip: 172.18.0.4
+    phase: Running
+    podIP: 10.42.1.41
+    podIPs:
+    - ip: 10.42.1.41
+    qosClass: Burstable
+    startTime: "2026-03-04T19:59:04Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-03-02T19:17:20Z"
+    generateName: go-api-deployment-5788dd67db-
+    labels:
+      app: go-api
+      pod-template-hash: 5788dd67db
+    name: go-api-deployment-5788dd67db-cg5xr
+    namespace: dev
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: go-api-deployment-5788dd67db
+      uid: a0f00c98-ea8c-40db-adac-3be2b951bf2c
+    resourceVersion: "19782"
+    uid: c9d954fe-ccbd-43ed-99f6-c04d3da8a705
+  spec:
+    containers:
+    - image: mbradleyhome/demo-api:latest
+      imagePullPolicy: Always
+      name: go-api
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+        requests:
+          cpu: 250m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-rxswb
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-demo-k3-cluster-agent-0
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-rxswb
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T15:23:59Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-02T19:17:20Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T15:23:59Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T15:23:59Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-02T19:17:20Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://9bf46012bccc51f473d3c23bc8692ea4ab03dd43acf40aef47871bc75b4f5329
+      image: docker.io/mbradleyhome/demo-api:latest
+      imageID: docker.io/mbradleyhome/demo-api@sha256:683a83155739e20560331ccf5550fbfbeefd2f311ee508167afbbfbc44c8acc4
+      lastState:
+        terminated:
+          containerID: containerd://9fa7132baf021ec33b2aafda58fd08ff8dd94afaae2b631a74127362fb07b9bb
+          exitCode: 255
+          finishedAt: "2026-03-04T15:23:52Z"
+          reason: Unknown
+          startedAt: "2026-03-03T17:46:36Z"
+      name: go-api
+      ready: true
+      restartCount: 2
+      started: true
+      state:
+        running:
+          startedAt: "2026-03-04T15:23:59Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-rxswb
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 172.18.0.2
+    hostIPs:
+    - ip: 172.18.0.2
+    phase: Running
+    podIP: 10.42.0.32
+    podIPs:
+    - ip: 10.42.0.32
+    qosClass: Burstable
+    startTime: "2026-03-02T19:17:20Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-03-04T19:38:25Z"
+    generateName: ollama-api-deployment-7c5d4955b9-
+    labels:
+      app: ollama-api
+      pod-template-hash: 7c5d4955b9
+    name: ollama-api-deployment-7c5d4955b9-47972
+    namespace: dev
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: ollama-api-deployment-7c5d4955b9
+      uid: eb01e29c-b91d-4567-8a58-34479f81d169
+    resourceVersion: "26739"
+    uid: 45b04d71-6e9f-4182-acf9-c3dffb73c55c
+  spec:
+    containers:
+    - image: mbradleyhome/ollama-api:latest
+      imagePullPolicy: Always
+      name: ollama-api
+      ports:
+      - containerPort: 8000
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 128Mi
+        requests:
+          cpu: 250m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-bhqbx
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-demo-k3-cluster-agent-0
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-bhqbx
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T19:40:10Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T19:38:25Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T19:40:10Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T19:40:10Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-03-04T19:38:25Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://87c9ac5068fd12bda31100015da31bca4629c61856a92a2979918237f0f40637
+      image: docker.io/mbradleyhome/ollama-api:latest
+      imageID: docker.io/mbradleyhome/ollama-api@sha256:5eedea0b6a99e56f0a2861ea88df7b7783676c7ba730ef9634b0e298a8f7778d
+      lastState: {}
+      name: ollama-api
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-03-04T19:40:09Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-bhqbx
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 172.18.0.2
+    hostIPs:
+    - ip: 172.18.0.2
+    phase: Running
+    podIP: 10.42.0.36
+    podIPs:
+    - ip: 10.42.0.36
+    qosClass: Burstable
+    startTime: "2026-03-04T19:38:25Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:/Service:dev/csharp-api-svc
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"app-argocd-dev:/Service:dev/csharp-api-svc"},"name":"csharp-api-svc","namespace":"dev"},"spec":{"ports":[{"name":"http","port":80,"protocol":"TCP","targetPort":5113}],"selector":{"app":"csharp-api"}},"status":{"loadBalancer":{}}}
+    creationTimestamp: "2026-03-04T19:38:24Z"
+    name: csharp-api-svc
+    namespace: dev
+    resourceVersion: "27222"
+    uid: 40d41360-0711-4572-87a2-e6201fecd783
+  spec:
+    clusterIP: 10.43.110.27
+    clusterIPs:
+    - 10.43.110.27
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 5113
+    selector:
+      app: csharp-api
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:/Service:dev/go-api-svc
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"app-argocd-dev:/Service:dev/go-api-svc"},"name":"go-api-svc","namespace":"dev"},"spec":{"ports":[{"name":"http","port":80,"protocol":"TCP","targetPort":8080}],"selector":{"app":"go-api"}},"status":{"loadBalancer":{}}}
+    creationTimestamp: "2026-03-02T19:04:36Z"
+    name: go-api-svc
+    namespace: dev
+    resourceVersion: "1659"
+    uid: 767554c9-e214-4d11-a3a6-d16c16e66dc8
+  spec:
+    clusterIP: 10.43.160.54
+    clusterIPs:
+    - 10.43.160.54
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: go-api
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:/Service:dev/ollama-api-svc
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"app-argocd-dev:/Service:dev/ollama-api-svc"},"name":"ollama-api-svc","namespace":"dev"},"spec":{"ports":[{"name":"http","port":80,"protocol":"TCP","targetPort":8000}],"selector":{"app":"ollama-api"}},"status":{"loadBalancer":{}}}
+    creationTimestamp: "2026-03-04T19:38:24Z"
+    name: ollama-api-svc
+    namespace: dev
+    resourceVersion: "26634"
+    uid: 9ccefcd4-6569-47d4-ac69-c1d55b6fa0a9
+  spec:
+    clusterIP: 10.43.204.54
+    clusterIPs:
+    - 10.43.204.54
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8000
+    selector:
+      app: ollama-api
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:apps/Deployment:dev/csharp-api-deployment
+      deployment.kubernetes.io/revision: "2"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"app-argocd-dev:apps/Deployment:dev/csharp-api-deployment"},"name":"csharp-api-deployment","namespace":"dev"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"csharp-api"}},"strategy":{},"template":{"metadata":{"labels":{"app":"csharp-api"}},"spec":{"containers":[{"image":"mbradleyhome/csharp-api:latest","name":"csharp-api","ports":[{"containerPort":5113}],"resources":{"limits":{"cpu":"500m","memory":"128Mi"},"requests":{"cpu":"250m","memory":"64Mi"}}}]}}}}
+    creationTimestamp: "2026-03-04T19:38:25Z"
+    generation: 2
+    name: csharp-api-deployment
+    namespace: dev
+    resourceVersion: "27266"
+    uid: 3d50536d-d945-40fc-b75d-1edb2735cd36
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: csharp-api
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: csharp-api
+      spec:
+        containers:
+        - image: mbradleyhome/csharp-api:latest
+          imagePullPolicy: Always
+          name: csharp-api
+          ports:
+          - containerPort: 5113
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-03-04T19:40:10Z"
+      lastUpdateTime: "2026-03-04T19:40:10Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-03-04T19:38:25Z"
+      lastUpdateTime: "2026-03-04T19:59:08Z"
+      message: ReplicaSet "csharp-api-deployment-55986f4954" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:apps/Deployment:dev/go-api-deployment
+      deployment.kubernetes.io/revision: "2"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"app-argocd-dev:apps/Deployment:dev/go-api-deployment"},"name":"go-api-deployment","namespace":"dev"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"go-api"}},"strategy":{},"template":{"metadata":{"labels":{"app":"go-api"}},"spec":{"containers":[{"image":"mbradleyhome/demo-api:latest","name":"go-api","ports":[{"containerPort":8080}],"resources":{"limits":{"cpu":"500m","memory":"128Mi"},"requests":{"cpu":"250m","memory":"64Mi"}}}]}}}}
+    creationTimestamp: "2026-03-02T19:04:36Z"
+    generation: 2
+    name: go-api-deployment
+    namespace: dev
+    resourceVersion: "19575"
+    uid: 0ae0b3a6-15ea-4cd6-b201-0153407a7abc
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: go-api
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: go-api
+      spec:
+        containers:
+        - image: mbradleyhome/demo-api:latest
+          imagePullPolicy: Always
+          name: go-api
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-03-02T19:17:20Z"
+      lastUpdateTime: "2026-03-02T19:17:25Z"
+      message: ReplicaSet "go-api-deployment-5788dd67db" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-03-04T15:23:59Z"
+      lastUpdateTime: "2026-03-04T15:23:59Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:apps/Deployment:dev/ollama-api-deployment
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"app-argocd-dev:apps/Deployment:dev/ollama-api-deployment"},"name":"ollama-api-deployment","namespace":"dev"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"ollama-api"}},"strategy":{},"template":{"metadata":{"labels":{"app":"ollama-api"}},"spec":{"containers":[{"image":"mbradleyhome/ollama-api:latest","name":"ollama-api","ports":[{"containerPort":8000}],"resources":{"limits":{"cpu":"500m","memory":"128Mi"},"requests":{"cpu":"250m","memory":"64Mi"}}}]}}}}
+    creationTimestamp: "2026-03-04T19:38:25Z"
+    generation: 1
+    name: ollama-api-deployment
+    namespace: dev
+    resourceVersion: "26741"
+    uid: a5357134-289b-4dc6-a64b-b6ec2d7b669f
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: ollama-api
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: ollama-api
+      spec:
+        containers:
+        - image: mbradleyhome/ollama-api:latest
+          imagePullPolicy: Always
+          name: ollama-api
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-03-04T19:40:10Z"
+      lastUpdateTime: "2026-03-04T19:40:10Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-03-04T19:38:25Z"
+      lastUpdateTime: "2026-03-04T19:40:10Z"
+      message: ReplicaSet "ollama-api-deployment-7c5d4955b9" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:apps/Deployment:dev/csharp-api-deployment
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2026-03-04T19:59:04Z"
+    generation: 1
+    labels:
+      app: csharp-api
+      pod-template-hash: 55986f4954
+    name: csharp-api-deployment-55986f4954
+    namespace: dev
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: csharp-api-deployment
+      uid: 3d50536d-d945-40fc-b75d-1edb2735cd36
+    resourceVersion: "27255"
+    uid: 103da351-4649-40ce-8cf8-1d32d2c94bbd
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: csharp-api
+        pod-template-hash: 55986f4954
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: csharp-api
+          pod-template-hash: 55986f4954
+      spec:
+        containers:
+        - image: mbradleyhome/csharp-api:latest
+          imagePullPolicy: Always
+          name: csharp-api
+          ports:
+          - containerPort: 5113
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:apps/Deployment:dev/csharp-api-deployment
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-03-04T19:38:25Z"
+    generation: 2
+    labels:
+      app: csharp-api
+      pod-template-hash: 6cf58b96d8
+    name: csharp-api-deployment-6cf58b96d8
+    namespace: dev
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: csharp-api-deployment
+      uid: 3d50536d-d945-40fc-b75d-1edb2735cd36
+    resourceVersion: "27263"
+    uid: 9c57331d-f72e-4124-9fdd-e13b55300947
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: csharp-api
+        pod-template-hash: 6cf58b96d8
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: csharp-api
+          pod-template-hash: 6cf58b96d8
+      spec:
+        containers:
+        - image: mbradleyhome/csharp-api:latest
+          imagePullPolicy: Always
+          name: csharp-api
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:apps/Deployment:dev/go-api-deployment
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2026-03-02T19:17:20Z"
+    generation: 1
+    labels:
+      app: go-api
+      pod-template-hash: 5788dd67db
+    name: go-api-deployment-5788dd67db
+    namespace: dev
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: go-api-deployment
+      uid: 0ae0b3a6-15ea-4cd6-b201-0153407a7abc
+    resourceVersion: "19573"
+    uid: a0f00c98-ea8c-40db-adac-3be2b951bf2c
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: go-api
+        pod-template-hash: 5788dd67db
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: go-api
+          pod-template-hash: 5788dd67db
+      spec:
+        containers:
+        - image: mbradleyhome/demo-api:latest
+          imagePullPolicy: Always
+          name: go-api
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:apps/Deployment:dev/go-api-deployment
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-03-02T19:04:36Z"
+    generation: 2
+    labels:
+      app: go-api
+      pod-template-hash: 5fbf84696f
+    name: go-api-deployment-5fbf84696f
+    namespace: dev
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: go-api-deployment
+      uid: 0ae0b3a6-15ea-4cd6-b201-0153407a7abc
+    resourceVersion: "2097"
+    uid: 9dbb7376-e034-4416-bd37-edf0a173c4d0
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: go-api
+        pod-template-hash: 5fbf84696f
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: go-api
+          pod-template-hash: 5fbf84696f
+      spec:
+        containers:
+        - image: marcobradley/go-api:latest
+          imagePullPolicy: Always
+          name: go-api
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:apps/Deployment:dev/ollama-api-deployment
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-03-04T19:38:25Z"
+    generation: 1
+    labels:
+      app: ollama-api
+      pod-template-hash: 7c5d4955b9
+    name: ollama-api-deployment-7c5d4955b9
+    namespace: dev
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: ollama-api-deployment
+      uid: a5357134-289b-4dc6-a64b-b6ec2d7b669f
+    resourceVersion: "26740"
+    uid: eb01e29c-b91d-4567-8a58-34479f81d169
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: ollama-api
+        pod-template-hash: 7c5d4955b9
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: ollama-api
+          pod-template-hash: 7c5d4955b9
+      spec:
+        containers:
+        - image: mbradleyhome/ollama-api:latest
+          imagePullPolicy: Always
+          name: ollama-api
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  data:
+    ca.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIBdzCCAR2gAwIBAgIBADAKBggqhkjOPQQDAjAjMSEwHwYDVQQDDBhrM3Mtc2Vy
+      dmVyLWNhQDE3NzI0Nzc2NzgwHhcNMjYwMzAyMTg1NDM4WhcNMzYwMjI4MTg1NDM4
+      WjAjMSEwHwYDVQQDDBhrM3Mtc2VydmVyLWNhQDE3NzI0Nzc2NzgwWTATBgcqhkjO
+      PQIBBggqhkjOPQMBBwNCAATMmnNd2uGmIW5XtGDpMLRNhWDgjXbu2vMtvWHVRynT
+      Da8/wUt1IaoDk/2OyB2yv8t749Mus6pw3lw+cEjQbYJwo0IwQDAOBgNVHQ8BAf8E
+      BAMCAqQwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQU0mbod3WR8LoimWHdQLo/
+      nuHOvk8wCgYIKoZIzj0EAwIDSAAwRQIgEJ6HSFeT38GJYgrdTDI0amC1hBFLZmRg
+      nlTlf9GNy1YCIQD1ReYuNNtz38LzaWLoZiQYxkW0Np2PLfhHtFzRgxh3FQ==
+      -----END CERTIFICATE-----
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubernetes.io/description: Contains a CA bundle that can be used to verify the
+        kube-apiserver when using internal endpoints such as the internal service
+        IP or kubernetes.default.svc. No other usage is guaranteed across distributions
+        of Kubernetes clusters.
+    creationTimestamp: "2026-03-02T19:04:35Z"
+    name: kube-root-ca.crt
+    namespace: dev
+    resourceVersion: "1656"
+    uid: d6bdd55e-3362-45f9-a040-763e8e4c1bd1
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    creationTimestamp: "2026-03-02T19:04:35Z"
+    name: default
+    namespace: dev
+    resourceVersion: "1655"
+    uid: 2035b26b-ac3a-41d7-8284-cc98153c2817
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:networking.k8s.io/Ingress:dev/csharp-api-ingress
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"app-argocd-dev:networking.k8s.io/Ingress:dev/csharp-api-ingress","kubernetes.io/ingress.class":"traefik"},"name":"csharp-api-ingress","namespace":"dev"},"spec":{"ingressClassName":"traefik","rules":[{"host":"csharp-api.localhost","http":{"paths":[{"backend":{"service":{"name":"csharp-api-svc","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}]}}
+      kubernetes.io/ingress.class: traefik
+    creationTimestamp: "2026-03-04T19:38:25Z"
+    generation: 1
+    name: csharp-api-ingress
+    namespace: dev
+    resourceVersion: "26674"
+    uid: b327768e-a888-437c-9bc1-0ba2e10d7317
+  spec:
+    ingressClassName: traefik
+    rules:
+    - host: csharp-api.localhost
+      http:
+        paths:
+        - backend:
+            service:
+              name: csharp-api-svc
+              port:
+                number: 80
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 172.18.0.2
+      - ip: 172.18.0.4
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:networking.k8s.io/Ingress:dev/go-api-ingress
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"app-argocd-dev:networking.k8s.io/Ingress:dev/go-api-ingress","kubernetes.io/ingress.class":"traefik"},"name":"go-api-ingress","namespace":"dev"},"spec":{"ingressClassName":"traefik","rules":[{"host":"go-api.localhost","http":{"paths":[{"backend":{"service":{"name":"go-api-svc","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}]}}
+      kubernetes.io/ingress.class: traefik
+    creationTimestamp: "2026-03-02T19:04:36Z"
+    generation: 1
+    name: go-api-ingress
+    namespace: dev
+    resourceVersion: "19792"
+    uid: 03414ef5-5b17-43e9-899a-aa9a3d4d7602
+  spec:
+    ingressClassName: traefik
+    rules:
+    - host: go-api.localhost
+      http:
+        paths:
+        - backend:
+            service:
+              name: go-api-svc
+              port:
+                number: 80
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 172.18.0.2
+      - ip: 172.18.0.4
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: app-argocd-dev:networking.k8s.io/Ingress:dev/ollama-api-ingress
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"app-argocd-dev:networking.k8s.io/Ingress:dev/ollama-api-ingress","kubernetes.io/ingress.class":"traefik"},"name":"ollama-api-ingress","namespace":"dev"},"spec":{"ingressClassName":"traefik","rules":[{"host":"ollama-api.localhost","http":{"paths":[{"backend":{"service":{"name":"ollama-api-svc","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}]}}
+      kubernetes.io/ingress.class: traefik
+    creationTimestamp: "2026-03-04T19:38:25Z"
+    generation: 1
+    name: ollama-api-ingress
+    namespace: dev
+    resourceVersion: "26675"
+    uid: b9909fe5-a28c-41d8-b9e3-985075f7d177
+  spec:
+    ingressClassName: traefik
+    rules:
+    - host: ollama-api.localhost
+      http:
+        paths:
+        - backend:
+            service:
+              name: ollama-api-svc
+              port:
+                number: 80
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 172.18.0.2
+      - ip: 172.18.0.4
+kind: List
+metadata:
+  resourceVersion: ""

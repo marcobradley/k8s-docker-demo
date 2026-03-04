@@ -1,0 +1,2648 @@
+﻿apiVersion: v1
+items:
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{},"name":"app-argocd-dev","namespace":"argocd"},"spec":{"destination":{"namespace":"dev","server":"https://kubernetes.default.svc"},"project":"default","source":{"helm":{"valueFiles":["values.yaml","values-dev.yaml"]},"path":"k3d-cluster/api-demo","repoURL":"git@github.com:marcobradley/local-kubernetes-cluster-demo.git","targetRevision":"main"},"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"syncOptions":["CreateNamespace=true"]}}}
+    creationTimestamp: "2026-03-02T19:02:53Z"
+    generation: 319
+    name: app-argocd-dev
+    namespace: argocd
+    resourceVersion: "27476"
+    uid: dc3dcaec-39a7-4908-80f6-4ee6cc8d2c65
+  spec:
+    destination:
+      namespace: dev
+      server: https://kubernetes.default.svc
+    project: default
+    source:
+      helm:
+        valueFiles:
+        - values.yaml
+        - values-dev.yaml
+      path: k3d-cluster/api-demo
+      repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+      - CreateNamespace=true
+  status:
+    controllerNamespace: argocd
+    health:
+      lastTransitionTime: "2026-03-04T19:59:08Z"
+      status: Healthy
+    history:
+    - deployStartedAt: "2026-03-02T19:04:35Z"
+      deployedAt: "2026-03-02T19:04:36Z"
+      id: 0
+      initiatedBy:
+        automated: true
+      revision: a132e3876709777de5c94d47cf74551c97e1f8ee
+      source:
+        helm:
+          valueFiles:
+          - values.yaml
+          - values-dev.yaml
+        path: k3d-cluster/api-demo
+        repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+        targetRevision: main
+    - deployStartedAt: "2026-03-02T19:07:24Z"
+      deployedAt: "2026-03-02T19:07:24Z"
+      id: 1
+      initiatedBy:
+        username: admin
+      revision: a132e3876709777de5c94d47cf74551c97e1f8ee
+      source:
+        helm:
+          valueFiles:
+          - values.yaml
+          - values-dev.yaml
+        path: k3d-cluster/api-demo
+        repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+        targetRevision: main
+    - deployStartedAt: "2026-03-02T19:17:20Z"
+      deployedAt: "2026-03-02T19:17:20Z"
+      id: 2
+      initiatedBy:
+        automated: true
+      revision: 451996ec062bb7333984f1429ce62da279b3e4b3
+      source:
+        helm:
+          valueFiles:
+          - values.yaml
+          - values-dev.yaml
+        path: k3d-cluster/api-demo
+        repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+        targetRevision: main
+    - deployStartedAt: "2026-03-04T19:38:23Z"
+      deployedAt: "2026-03-04T19:38:25Z"
+      id: 3
+      initiatedBy:
+        automated: true
+      revision: 367c6cda2510df2ee81b7254d3af47feafc1157b
+      source:
+        helm:
+          valueFiles:
+          - values.yaml
+          - values-dev.yaml
+        path: k3d-cluster/api-demo
+        repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+        targetRevision: main
+    - deployStartedAt: "2026-03-04T19:59:01Z"
+      deployedAt: "2026-03-04T19:59:04Z"
+      id: 4
+      initiatedBy:
+        username: admin
+      revision: 19dbc9ceb84931f1e54f0a0d77ec386e354c4802
+      source:
+        helm:
+          valueFiles:
+          - values.yaml
+          - values-dev.yaml
+        path: k3d-cluster/api-demo
+        repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2026-03-04T19:59:04Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          username: admin
+        retry: {}
+        sync:
+          revision: 19dbc9ceb84931f1e54f0a0d77ec386e354c4802
+          source:
+            helm:
+              valueFiles:
+              - values.yaml
+              - values-dev.yaml
+            path: k3d-cluster/api-demo
+            repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+            targetRevision: main
+          syncOptions:
+          - CreateNamespace=true
+          syncStrategy:
+            hook: {}
+      phase: Succeeded
+      startedAt: "2026-03-04T19:59:01Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/ollama-api-svc unchanged
+          name: ollama-api-svc
+          namespace: dev
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/go-api-svc unchanged
+          name: go-api-svc
+          namespace: dev
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/csharp-api-svc configured
+          name: csharp-api-svc
+          namespace: dev
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          images:
+          - mbradleyhome/demo-api:latest
+          kind: Deployment
+          message: deployment.apps/go-api-deployment unchanged
+          name: go-api-deployment
+          namespace: dev
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          images:
+          - mbradleyhome/ollama-api:latest
+          kind: Deployment
+          message: deployment.apps/ollama-api-deployment unchanged
+          name: ollama-api-deployment
+          namespace: dev
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          images:
+          - mbradleyhome/csharp-api:latest
+          kind: Deployment
+          message: deployment.apps/csharp-api-deployment configured
+          name: csharp-api-deployment
+          namespace: dev
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/go-api-ingress unchanged
+          name: go-api-ingress
+          namespace: dev
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/ollama-api-ingress unchanged
+          name: ollama-api-ingress
+          namespace: dev
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/csharp-api-ingress unchanged
+          name: csharp-api-ingress
+          namespace: dev
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 19dbc9ceb84931f1e54f0a0d77ec386e354c4802
+        source:
+          helm:
+            valueFiles:
+            - values.yaml
+            - values-dev.yaml
+          path: k3d-cluster/api-demo
+          repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+          targetRevision: main
+    reconciledAt: "2026-03-04T20:06:41Z"
+    resourceHealthSource: appTree
+    resources:
+    - kind: Service
+      name: csharp-api-svc
+      namespace: dev
+      status: Synced
+      version: v1
+    - kind: Service
+      name: go-api-svc
+      namespace: dev
+      status: Synced
+      version: v1
+    - kind: Service
+      name: ollama-api-svc
+      namespace: dev
+      status: Synced
+      version: v1
+    - group: apps
+      kind: Deployment
+      name: csharp-api-deployment
+      namespace: dev
+      status: Synced
+      version: v1
+    - group: apps
+      kind: Deployment
+      name: go-api-deployment
+      namespace: dev
+      status: Synced
+      version: v1
+    - group: apps
+      kind: Deployment
+      name: ollama-api-deployment
+      namespace: dev
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      kind: Ingress
+      name: csharp-api-ingress
+      namespace: dev
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      kind: Ingress
+      name: go-api-ingress
+      namespace: dev
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      kind: Ingress
+      name: ollama-api-ingress
+      namespace: dev
+      status: Synced
+      version: v1
+    sourceHydrator: {}
+    sourceType: Helm
+    summary:
+      externalURLs:
+      - http://csharp-api.localhost/
+      - http://go-api.localhost/
+      - http://ollama-api.localhost/
+      images:
+      - mbradleyhome/csharp-api:latest
+      - mbradleyhome/demo-api:latest
+      - mbradleyhome/ollama-api:latest
+    sync:
+      comparedTo:
+        destination:
+          namespace: dev
+          server: https://kubernetes.default.svc
+        source:
+          helm:
+            valueFiles:
+            - values.yaml
+            - values-dev.yaml
+          path: k3d-cluster/api-demo
+          repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+          targetRevision: main
+      revision: 19dbc9ceb84931f1e54f0a0d77ec386e354c4802
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{},"name":"argocd-core-k3d","namespace":"argocd"},"spec":{"destination":{"namespace":"argocd","server":"https://kubernetes.default.svc"},"project":"default","source":{"path":"k3d-cluster/argocd-core","repoURL":"git@github.com:marcobradley/local-kubernetes-cluster-demo.git","targetRevision":"main"},"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"syncOptions":["CreateNamespace=true"]}}}
+    creationTimestamp: "2026-03-02T19:00:52Z"
+    generation: 304
+    name: argocd-core-k3d
+    namespace: argocd
+    resourceVersion: "27480"
+    uid: 4da7bb86-fcb9-40a3-99c6-729b819421fb
+  spec:
+    destination:
+      namespace: argocd
+      server: https://kubernetes.default.svc
+    project: default
+    source:
+      path: k3d-cluster/argocd-core
+      repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+      targetRevision: main
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+      - CreateNamespace=true
+  status:
+    controllerNamespace: argocd
+    health:
+      lastTransitionTime: "2026-03-02T19:00:56Z"
+      status: Healthy
+    history:
+    - deployStartedAt: "2026-03-02T19:04:30Z"
+      deployedAt: "2026-03-02T19:04:31Z"
+      id: 0
+      initiatedBy:
+        automated: true
+      revision: a132e3876709777de5c94d47cf74551c97e1f8ee
+      source:
+        path: k3d-cluster/argocd-core
+        repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+        targetRevision: main
+    - deployStartedAt: "2026-03-04T20:01:00Z"
+      deployedAt: "2026-03-04T20:01:01Z"
+      id: 1
+      initiatedBy:
+        automated: true
+      revision: 19dbc9ceb84931f1e54f0a0d77ec386e354c4802
+      source:
+        path: k3d-cluster/argocd-core
+        repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+        targetRevision: main
+    operationState:
+      finishedAt: "2026-03-04T20:01:01Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          limit: 5
+        sync:
+          prune: true
+          revision: 19dbc9ceb84931f1e54f0a0d77ec386e354c4802
+          source:
+            path: k3d-cluster/argocd-core
+            repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+            targetRevision: main
+          syncOptions:
+          - CreateNamespace=true
+      phase: Succeeded
+      startedAt: "2026-03-04T20:01:00Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: Secret
+          message: secret/repo-local-kubernetes-cluster-demo configured
+          name: repo-local-kubernetes-cluster-demo
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/argocd-cmd-params-cm unchanged
+          name: argocd-cmd-params-cm
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/argocd-ssh-known-hosts-cm configured
+          name: argocd-ssh-known-hosts-cm
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/argocd-ingress unchanged
+          name: argocd-ingress
+          namespace: argocd
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 19dbc9ceb84931f1e54f0a0d77ec386e354c4802
+        source:
+          path: k3d-cluster/argocd-core
+          repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+          targetRevision: main
+    reconciledAt: "2026-03-04T20:06:48Z"
+    resourceHealthSource: appTree
+    resources:
+    - kind: ConfigMap
+      name: argocd-cmd-params-cm
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: argocd-ssh-known-hosts-cm
+      namespace: argocd
+      status: Synced
+      version: v1
+    - kind: Secret
+      name: repo-local-kubernetes-cluster-demo
+      namespace: argocd
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      kind: Ingress
+      name: argocd-ingress
+      namespace: argocd
+      status: Synced
+      version: v1
+    sourceHydrator: {}
+    sourceType: Directory
+    summary:
+      externalURLs:
+      - http://argocd.localhost/
+    sync:
+      comparedTo:
+        destination:
+          namespace: argocd
+          server: https://kubernetes.default.svc
+        source:
+          path: k3d-cluster/argocd-core
+          repoURL: git@github.com:marcobradley/local-kubernetes-cluster-demo.git
+          targetRevision: main
+      revision: 19dbc9ceb84931f1e54f0a0d77ec386e354c4802
+      status: Synced
+- apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{},"name":"monitoring-k3d","namespace":"argocd"},"spec":{"destination":{"namespace":"monitoring","server":"https://kubernetes.default.svc"},"project":"default","source":{"chart":"kube-prometheus-stack","helm":{"values":"grafana:\n  adminPassword: admin\n  ingress:\n    enabled: true\n    ingressClassName: traefik\n    annotations:\n      kubernetes.io/ingress.class: traefik\n      traefik.ingress.kubernetes.io/router.entrypoints: websecure\n      traefik.ingress.kubernetes.io/router.tls: \"true\"\n    hosts:\n      - grafana.localhost\n    tls:\n      - hosts:\n          - grafana.localhost\nprometheusOperator:\n  admissionWebhooks:\n    enabled: false\nprometheus:\n  ingress:\n    enabled: true\n    ingressClassName: traefik\n    annotations:\n      kubernetes.io/ingress.class: traefik\n      traefik.ingress.kubernetes.io/router.entrypoints: websecure\n      traefik.ingress.kubernetes.io/router.tls: \"true\"\n    hosts:\n      - prometheus.localhost\n    paths:\n      - /\n    pathType: Prefix\n    tls:\n      - hosts:\n          - prometheus.localhost\n"},"repoURL":"https://prometheus-community.github.io/helm-charts","targetRevision":"58.6.0"},"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"retry":{"backoff":{"duration":"5s","factor":2,"maxDuration":"3m"},"limit":5},"syncOptions":["CreateNamespace=true","ServerSideApply=true","Replace=true"]}}}
+    creationTimestamp: "2026-03-03T16:16:46Z"
+    generation: 211
+    name: monitoring-k3d
+    namespace: argocd
+    resourceVersion: "27466"
+    uid: fbe82251-37fa-4f98-929a-6a746867c135
+  spec:
+    destination:
+      namespace: monitoring
+      server: https://kubernetes.default.svc
+    project: default
+    source:
+      chart: kube-prometheus-stack
+      helm:
+        values: |
+          grafana:
+            adminPassword: admin
+            ingress:
+              enabled: true
+              ingressClassName: traefik
+              annotations:
+                kubernetes.io/ingress.class: traefik
+                traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                traefik.ingress.kubernetes.io/router.tls: "true"
+              hosts:
+                - grafana.localhost
+              tls:
+                - hosts:
+                    - grafana.localhost
+          prometheusOperator:
+            admissionWebhooks:
+              enabled: false
+          prometheus:
+            ingress:
+              enabled: true
+              ingressClassName: traefik
+              annotations:
+                kubernetes.io/ingress.class: traefik
+                traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                traefik.ingress.kubernetes.io/router.tls: "true"
+              hosts:
+                - prometheus.localhost
+              paths:
+                - /
+              pathType: Prefix
+              tls:
+                - hosts:
+                    - prometheus.localhost
+      repoURL: https://prometheus-community.github.io/helm-charts
+      targetRevision: 58.6.0
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      retry:
+        backoff:
+          duration: 5s
+          factor: 2
+          maxDuration: 3m
+        limit: 5
+      syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - Replace=true
+  status:
+    controllerNamespace: argocd
+    health:
+      lastTransitionTime: "2026-03-03T20:58:50Z"
+      status: Healthy
+    history:
+    - deployStartedAt: "2026-03-03T16:16:47Z"
+      deployedAt: "2026-03-03T16:21:19Z"
+      id: 0
+      initiatedBy:
+        automated: true
+      revision: 58.6.0
+      source:
+        chart: kube-prometheus-stack
+        helm:
+          values: |
+            grafana:
+              adminPassword: admin
+              ingress:
+                enabled: true
+                ingressClassName: traefik
+                annotations:
+                  kubernetes.io/ingress.class: traefik
+                  traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                  traefik.ingress.kubernetes.io/router.tls: "true"
+                hosts:
+                  - grafana.localhost
+                tls:
+                  - hosts:
+                      - grafana.localhost
+            prometheusOperator:
+              admissionWebhooks:
+                enabled: false
+            prometheus:
+              ingress:
+                enabled: true
+                ingressClassName: traefik
+                annotations:
+                  kubernetes.io/ingress.class: traefik
+                  traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                  traefik.ingress.kubernetes.io/router.tls: "true"
+                hosts:
+                  - prometheus.localhost
+                paths:
+                  - /
+                pathType: Prefix
+                tls:
+                  - hosts:
+                      - prometheus.localhost
+        repoURL: https://prometheus-community.github.io/helm-charts
+        targetRevision: 58.6.0
+    operationState:
+      finishedAt: "2026-03-03T16:21:19Z"
+      message: successfully synced (all tasks run)
+      operation:
+        initiatedBy:
+          automated: true
+        retry:
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+          limit: 5
+        sync:
+          prune: true
+          revision: 58.6.0
+          source:
+            chart: kube-prometheus-stack
+            helm:
+              values: |
+                grafana:
+                  adminPassword: admin
+                  ingress:
+                    enabled: true
+                    ingressClassName: traefik
+                    annotations:
+                      kubernetes.io/ingress.class: traefik
+                      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                      traefik.ingress.kubernetes.io/router.tls: "true"
+                    hosts:
+                      - grafana.localhost
+                    tls:
+                      - hosts:
+                          - grafana.localhost
+                prometheusOperator:
+                  admissionWebhooks:
+                    enabled: false
+                prometheus:
+                  ingress:
+                    enabled: true
+                    ingressClassName: traefik
+                    annotations:
+                      kubernetes.io/ingress.class: traefik
+                      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                      traefik.ingress.kubernetes.io/router.tls: "true"
+                    hosts:
+                      - prometheus.localhost
+                    paths:
+                      - /
+                    pathType: Prefix
+                    tls:
+                      - hosts:
+                          - prometheus.localhost
+            repoURL: https://prometheus-community.github.io/helm-charts
+            targetRevision: 58.6.0
+          syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+          - Replace=true
+      phase: Succeeded
+      retryCount: 3
+      startedAt: "2026-03-03T16:16:47Z"
+      syncResult:
+        resources:
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/monitoring-k3d-kube-promet-operator replaced
+          name: monitoring-k3d-kube-promet-operator
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/monitoring-k3d-prometheus-node-exporter replaced
+          name: monitoring-k3d-prometheus-node-exporter
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/monitoring-k3d-kube-promet-prometheus replaced
+          name: monitoring-k3d-kube-promet-prometheus
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/monitoring-k3d-kube-state-metrics replaced
+          name: monitoring-k3d-kube-state-metrics
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/monitoring-k3d-grafana replaced
+          name: monitoring-k3d-grafana
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ServiceAccount
+          message: serviceaccount/monitoring-k3d-kube-promet-alertmanager replaced
+          name: monitoring-k3d-kube-promet-alertmanager
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Secret
+          message: secret/alertmanager-monitoring-k3d-kube-promet-alertmanager replaced
+          name: alertmanager-monitoring-k3d-kube-promet-alertmanager
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Secret
+          message: secret/monitoring-k3d-grafana replaced
+          name: monitoring-k3d-grafana
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-cluster-total replaced
+          name: monitoring-k3d-kube-promet-cluster-total
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-grafana replaced
+          name: monitoring-k3d-grafana
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-grafana-config-dashboards replaced
+          name: monitoring-k3d-grafana-config-dashboards
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-namespace-by-workload replaced
+          name: monitoring-k3d-kube-promet-namespace-by-workload
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-kubelet replaced
+          name: monitoring-k3d-kube-promet-kubelet
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-etcd replaced
+          name: monitoring-k3d-kube-promet-etcd
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-node-rsrc-use replaced
+          name: monitoring-k3d-kube-promet-node-rsrc-use
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-apiserver replaced
+          name: monitoring-k3d-kube-promet-apiserver
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-alertmanager-overview replaced
+          name: monitoring-k3d-kube-promet-alertmanager-overview
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-grafana-datasource replaced
+          name: monitoring-k3d-kube-promet-grafana-datasource
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-scheduler replaced
+          name: monitoring-k3d-kube-promet-scheduler
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-k8s-resources-cluster replaced
+          name: monitoring-k3d-kube-promet-k8s-resources-cluster
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-k8s-resources-workloads-namespace
+            replaced
+          name: monitoring-k3d-kube-promet-k8s-resources-workloads-namespace
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-workload-total replaced
+          name: monitoring-k3d-kube-promet-workload-total
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-controller-manager replaced
+          name: monitoring-k3d-kube-promet-controller-manager
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-namespace-by-pod replaced
+          name: monitoring-k3d-kube-promet-namespace-by-pod
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-k8s-resources-multicluster
+            replaced
+          name: monitoring-k3d-kube-promet-k8s-resources-multicluster
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-node-cluster-rsrc-use replaced
+          name: monitoring-k3d-kube-promet-node-cluster-rsrc-use
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-nodes replaced
+          name: monitoring-k3d-kube-promet-nodes
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-grafana-overview replaced
+          name: monitoring-k3d-kube-promet-grafana-overview
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-pod-total replaced
+          name: monitoring-k3d-kube-promet-pod-total
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-nodes-darwin replaced
+          name: monitoring-k3d-kube-promet-nodes-darwin
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-k8s-resources-namespace replaced
+          name: monitoring-k3d-kube-promet-k8s-resources-namespace
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-k8s-resources-workload replaced
+          name: monitoring-k3d-kube-promet-k8s-resources-workload
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-persistentvolumesusage replaced
+          name: monitoring-k3d-kube-promet-persistentvolumesusage
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-prometheus replaced
+          name: monitoring-k3d-kube-promet-prometheus
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-k8s-resources-pod replaced
+          name: monitoring-k3d-kube-promet-k8s-resources-pod
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-proxy replaced
+          name: monitoring-k3d-kube-promet-proxy
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-k8s-resources-node replaced
+          name: monitoring-k3d-kube-promet-k8s-resources-node
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: ConfigMap
+          message: configmap/monitoring-k3d-kube-promet-k8s-coredns replaced
+          name: monitoring-k3d-kube-promet-k8s-coredns
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: CustomResourceDefinition/prometheusrules.monitoring.coreos.com
+            updated
+          name: prometheusrules.monitoring.coreos.com
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: CustomResourceDefinition/podmonitors.monitoring.coreos.com updated
+          name: podmonitors.monitoring.coreos.com
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: CustomResourceDefinition/probes.monitoring.coreos.com updated
+          name: probes.monitoring.coreos.com
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: CustomResourceDefinition/servicemonitors.monitoring.coreos.com
+            updated
+          name: servicemonitors.monitoring.coreos.com
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: CustomResourceDefinition/scrapeconfigs.monitoring.coreos.com updated
+          name: scrapeconfigs.monitoring.coreos.com
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: CustomResourceDefinition/alertmanagerconfigs.monitoring.coreos.com
+            updated
+          name: alertmanagerconfigs.monitoring.coreos.com
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: CustomResourceDefinition/thanosrulers.monitoring.coreos.com updated
+          name: thanosrulers.monitoring.coreos.com
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: CustomResourceDefinition/alertmanagers.monitoring.coreos.com updated
+          name: alertmanagers.monitoring.coreos.com
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: CustomResourceDefinition/prometheuses.monitoring.coreos.com updated
+          name: prometheuses.monitoring.coreos.com
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apiextensions.k8s.io
+          hookPhase: Running
+          kind: CustomResourceDefinition
+          message: CustomResourceDefinition/prometheusagents.monitoring.coreos.com
+            updated
+          name: prometheusagents.monitoring.coreos.com
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: clusterrole.rbac.authorization.k8s.io/monitoring-k3d-kube-promet-prometheus
+            reconciled. clusterrole.rbac.authorization.k8s.io/monitoring-k3d-kube-promet-prometheus
+            replaced
+          name: monitoring-k3d-kube-promet-prometheus
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: clusterrole.rbac.authorization.k8s.io/monitoring-k3d-kube-state-metrics
+            reconciled. clusterrole.rbac.authorization.k8s.io/monitoring-k3d-kube-state-metrics
+            replaced
+          name: monitoring-k3d-kube-state-metrics
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: clusterrole.rbac.authorization.k8s.io/monitoring-k3d-grafana-clusterrole
+            reconciled. clusterrole.rbac.authorization.k8s.io/monitoring-k3d-grafana-clusterrole
+            replaced
+          name: monitoring-k3d-grafana-clusterrole
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRole
+          message: clusterrole.rbac.authorization.k8s.io/monitoring-k3d-kube-promet-operator
+            reconciled. clusterrole.rbac.authorization.k8s.io/monitoring-k3d-kube-promet-operator
+            replaced
+          name: monitoring-k3d-kube-promet-operator
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: clusterrolebinding.rbac.authorization.k8s.io/monitoring-k3d-kube-promet-operator
+            reconciled. clusterrolebinding.rbac.authorization.k8s.io/monitoring-k3d-kube-promet-operator
+            replaced
+          name: monitoring-k3d-kube-promet-operator
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: clusterrolebinding.rbac.authorization.k8s.io/monitoring-k3d-kube-state-metrics
+            reconciled. clusterrolebinding.rbac.authorization.k8s.io/monitoring-k3d-kube-state-metrics
+            replaced
+          name: monitoring-k3d-kube-state-metrics
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: clusterrolebinding.rbac.authorization.k8s.io/monitoring-k3d-kube-promet-prometheus
+            reconciled. clusterrolebinding.rbac.authorization.k8s.io/monitoring-k3d-kube-promet-prometheus
+            replaced
+          name: monitoring-k3d-kube-promet-prometheus
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: ClusterRoleBinding
+          message: clusterrolebinding.rbac.authorization.k8s.io/monitoring-k3d-grafana-clusterrolebinding
+            reconciled. clusterrolebinding.rbac.authorization.k8s.io/monitoring-k3d-grafana-clusterrolebinding
+            replaced
+          name: monitoring-k3d-grafana-clusterrolebinding
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: Role
+          message: role.rbac.authorization.k8s.io/monitoring-k3d-grafana reconciled.
+            role.rbac.authorization.k8s.io/monitoring-k3d-grafana replaced
+          name: monitoring-k3d-grafana
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: rbac.authorization.k8s.io
+          hookPhase: Running
+          kind: RoleBinding
+          message: rolebinding.rbac.authorization.k8s.io/monitoring-k3d-grafana reconciled.
+            rolebinding.rbac.authorization.k8s.io/monitoring-k3d-grafana replaced
+          name: monitoring-k3d-grafana
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-kube-state-metrics replaced
+          name: monitoring-k3d-kube-state-metrics
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-kube-promet-alertmanager replaced
+          name: monitoring-k3d-kube-promet-alertmanager
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-kube-promet-kube-scheduler replaced
+          name: monitoring-k3d-kube-promet-kube-scheduler
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-kube-promet-prometheus replaced
+          name: monitoring-k3d-kube-promet-prometheus
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-grafana replaced
+          name: monitoring-k3d-grafana
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-prometheus-node-exporter replaced
+          name: monitoring-k3d-prometheus-node-exporter
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-kube-promet-kube-controller-manager replaced
+          name: monitoring-k3d-kube-promet-kube-controller-manager
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-kube-promet-kube-etcd replaced
+          name: monitoring-k3d-kube-promet-kube-etcd
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-kube-promet-coredns replaced
+          name: monitoring-k3d-kube-promet-coredns
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-kube-promet-kube-proxy replaced
+          name: monitoring-k3d-kube-promet-kube-proxy
+          namespace: kube-system
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: ""
+          hookPhase: Running
+          kind: Service
+          message: service/monitoring-k3d-kube-promet-operator replaced
+          name: monitoring-k3d-kube-promet-operator
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          images:
+          - quay.io/prometheus/node-exporter:v1.8.0
+          kind: DaemonSet
+          message: daemonset.apps/monitoring-k3d-prometheus-node-exporter replaced
+          name: monitoring-k3d-prometheus-node-exporter
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          images:
+          - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.12.0
+          kind: Deployment
+          message: deployment.apps/monitoring-k3d-kube-state-metrics replaced
+          name: monitoring-k3d-kube-state-metrics
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          images:
+          - quay.io/prometheus-operator/prometheus-operator:v0.73.2
+          kind: Deployment
+          message: deployment.apps/monitoring-k3d-kube-promet-operator replaced
+          name: monitoring-k3d-kube-promet-operator
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: apps
+          hookPhase: Running
+          images:
+          - quay.io/kiwigrid/k8s-sidecar:1.26.1
+          - quay.io/kiwigrid/k8s-sidecar:1.26.1
+          - docker.io/grafana/grafana:10.4.1
+          kind: Deployment
+          message: deployment.apps/monitoring-k3d-grafana replaced
+          name: monitoring-k3d-grafana
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/monitoring-k3d-grafana replaced
+          name: monitoring-k3d-grafana
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: networking.k8s.io
+          hookPhase: Running
+          kind: Ingress
+          message: ingress.networking.k8s.io/monitoring-k3d-kube-promet-prometheus
+            replaced
+          name: monitoring-k3d-kube-promet-prometheus
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-grafana replaced
+          name: monitoring-k3d-grafana
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-promet-alertmanager
+            replaced
+          name: monitoring-k3d-kube-promet-alertmanager
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: Alertmanager
+          message: alertmanager.monitoring.coreos.com/monitoring-k3d-kube-promet-alertmanager
+            replaced
+          name: monitoring-k3d-kube-promet-alertmanager
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-alertmanager.rules
+            replaced
+          name: monitoring-k3d-kube-promet-alertmanager.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-promet-apiserver
+            replaced
+          name: monitoring-k3d-kube-promet-apiserver
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-config-reloaders
+            replaced
+          name: monitoring-k3d-kube-promet-config-reloaders
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-promet-coredns
+            replaced
+          name: monitoring-k3d-kube-promet-coredns
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-general.rules
+            replaced
+          name: monitoring-k3d-kube-promet-general.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-k8s.rules.container-resource
+            replaced
+          name: monitoring-k3d-kube-promet-k8s.rules.container-resource
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-k8s.rules.container-memory-swap
+            replaced
+          name: monitoring-k3d-kube-promet-k8s.rules.container-memory-swap
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-k8s.rules.pod-owner
+            replaced
+          name: monitoring-k3d-kube-promet-k8s.rules.pod-owner
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-k8s.rules.container-memory-working-s
+            replaced
+          name: monitoring-k3d-kube-promet-k8s.rules.container-memory-working-s
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-k8s.rules.container-cpu-usage-second
+            replaced
+          name: monitoring-k3d-kube-promet-k8s.rules.container-cpu-usage-second
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-apiserver-slos
+            replaced
+          name: monitoring-k3d-kube-promet-kube-apiserver-slos
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-etcd
+            replaced
+          name: monitoring-k3d-kube-promet-etcd
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-k8s.rules.container-memory-rss
+            replaced
+          name: monitoring-k3d-kube-promet-k8s.rules.container-memory-rss
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-k8s.rules.container-memory-cache
+            replaced
+          name: monitoring-k3d-kube-promet-k8s.rules.container-memory-cache
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-apiserver-histogram.rules
+            replaced
+          name: monitoring-k3d-kube-promet-kube-apiserver-histogram.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-apiserver-availability.rules
+            replaced
+          name: monitoring-k3d-kube-promet-kube-apiserver-availability.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-apiserver-burnrate.rules
+            replaced
+          name: monitoring-k3d-kube-promet-kube-apiserver-burnrate.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-etcd
+            replaced
+          name: monitoring-k3d-kube-promet-kube-etcd
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-controller-manager
+            replaced
+          name: monitoring-k3d-kube-promet-kube-controller-manager
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-prometheus-node-recording.rules
+            replaced
+          name: monitoring-k3d-kube-promet-kube-prometheus-node-recording.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-prometheus-general.rules
+            replaced
+          name: monitoring-k3d-kube-promet-kube-prometheus-general.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-scheduler
+            replaced
+          name: monitoring-k3d-kube-promet-kube-scheduler
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-proxy
+            replaced
+          name: monitoring-k3d-kube-promet-kube-proxy
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-state-metrics
+            replaced
+          name: monitoring-k3d-kube-promet-kube-state-metrics
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kube-scheduler.rules
+            replaced
+          name: monitoring-k3d-kube-promet-kube-scheduler.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-promet-kubelet
+            replaced
+          name: monitoring-k3d-kube-promet-kubelet
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kubernetes-system
+            replaced
+          name: monitoring-k3d-kube-promet-kubernetes-system
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-node-network
+            replaced
+          name: monitoring-k3d-kube-promet-node-network
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kubernetes-system-apiserver
+            replaced
+          name: monitoring-k3d-kube-promet-kubernetes-system-apiserver
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kubernetes-system-kubelet
+            replaced
+          name: monitoring-k3d-kube-promet-kubernetes-system-kubelet
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kubernetes-system-kube-proxy
+            replaced
+          name: monitoring-k3d-kube-promet-kubernetes-system-kube-proxy
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kubelet.rules
+            replaced
+          name: monitoring-k3d-kube-promet-kubelet.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-node-exporter.rules
+            replaced
+          name: monitoring-k3d-kube-promet-node-exporter.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kubernetes-system-controller-manager
+            replaced
+          name: monitoring-k3d-kube-promet-kubernetes-system-controller-manager
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kubernetes-resources
+            replaced
+          name: monitoring-k3d-kube-promet-kubernetes-resources
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kubernetes-apps
+            replaced
+          name: monitoring-k3d-kube-promet-kubernetes-apps
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kubernetes-system-scheduler
+            replaced
+          name: monitoring-k3d-kube-promet-kubernetes-system-scheduler
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-node-exporter
+            replaced
+          name: monitoring-k3d-kube-promet-node-exporter
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-kubernetes-storage
+            replaced
+          name: monitoring-k3d-kube-promet-kubernetes-storage
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-node.rules
+            replaced
+          name: monitoring-k3d-kube-promet-node.rules
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-promet-operator
+            replaced
+          name: monitoring-k3d-kube-promet-operator
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: Prometheus
+          message: prometheus.monitoring.coreos.com/monitoring-k3d-kube-promet-prometheus
+            replaced
+          name: monitoring-k3d-kube-promet-prometheus
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-prometheus
+            replaced
+          name: monitoring-k3d-kube-promet-prometheus
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-promet-prometheus
+            replaced
+          name: monitoring-k3d-kube-promet-prometheus
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: PrometheusRule
+          message: prometheusrule.monitoring.coreos.com/monitoring-k3d-kube-promet-prometheus-operator
+            replaced
+          name: monitoring-k3d-kube-promet-prometheus-operator
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-kube-state-metrics
+            replaced
+          name: monitoring-k3d-kube-state-metrics
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        - group: monitoring.coreos.com
+          hookPhase: Running
+          kind: ServiceMonitor
+          message: servicemonitor.monitoring.coreos.com/monitoring-k3d-prometheus-node-exporter
+            replaced
+          name: monitoring-k3d-prometheus-node-exporter
+          namespace: monitoring
+          status: Synced
+          syncPhase: Sync
+          version: v1
+        revision: 58.6.0
+        source:
+          chart: kube-prometheus-stack
+          helm:
+            values: |
+              grafana:
+                adminPassword: admin
+                ingress:
+                  enabled: true
+                  ingressClassName: traefik
+                  annotations:
+                    kubernetes.io/ingress.class: traefik
+                    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                    traefik.ingress.kubernetes.io/router.tls: "true"
+                  hosts:
+                    - grafana.localhost
+                  tls:
+                    - hosts:
+                        - grafana.localhost
+              prometheusOperator:
+                admissionWebhooks:
+                  enabled: false
+              prometheus:
+                ingress:
+                  enabled: true
+                  ingressClassName: traefik
+                  annotations:
+                    kubernetes.io/ingress.class: traefik
+                    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                    traefik.ingress.kubernetes.io/router.tls: "true"
+                  hosts:
+                    - prometheus.localhost
+                  paths:
+                    - /
+                  pathType: Prefix
+                  tls:
+                    - hosts:
+                        - prometheus.localhost
+          repoURL: https://prometheus-community.github.io/helm-charts
+          targetRevision: 58.6.0
+    reconciledAt: "2026-03-04T20:06:17Z"
+    resourceHealthSource: appTree
+    resources:
+    - kind: ConfigMap
+      name: monitoring-k3d-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-grafana-config-dashboards
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-alertmanager-overview
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-apiserver
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-cluster-total
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-controller-manager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-etcd
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-grafana-datasource
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-grafana-overview
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-k8s-coredns
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-k8s-resources-cluster
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-k8s-resources-multicluster
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-k8s-resources-namespace
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-k8s-resources-node
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-k8s-resources-pod
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-k8s-resources-workload
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-k8s-resources-workloads-namespace
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-kubelet
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-namespace-by-pod
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-namespace-by-workload
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-node-cluster-rsrc-use
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-node-rsrc-use
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-nodes
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-nodes-darwin
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-persistentvolumesusage
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-pod-total
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-proxy
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-scheduler
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ConfigMap
+      name: monitoring-k3d-kube-promet-workload-total
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Secret
+      name: alertmanager-monitoring-k3d-kube-promet-alertmanager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Secret
+      name: monitoring-k3d-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-kube-promet-coredns
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-kube-promet-kube-controller-manager
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-kube-promet-kube-etcd
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-kube-promet-kube-proxy
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-kube-promet-kube-scheduler
+      namespace: kube-system
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-kube-promet-alertmanager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-kube-promet-operator
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-kube-promet-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-kube-state-metrics
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: Service
+      name: monitoring-k3d-prometheus-node-exporter
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: monitoring-k3d-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: monitoring-k3d-kube-promet-alertmanager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: monitoring-k3d-kube-promet-operator
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: monitoring-k3d-kube-promet-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: monitoring-k3d-kube-state-metrics
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - kind: ServiceAccount
+      name: monitoring-k3d-prometheus-node-exporter
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: alertmanagerconfigs.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: alertmanagers.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: podmonitors.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: probes.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: prometheusagents.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: prometheuses.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: prometheusrules.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: scrapeconfigs.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: servicemonitors.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: thanosrulers.monitoring.coreos.com
+      status: Synced
+      version: v1
+    - group: apps
+      kind: DaemonSet
+      name: monitoring-k3d-prometheus-node-exporter
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      kind: Deployment
+      name: monitoring-k3d-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      kind: Deployment
+      name: monitoring-k3d-kube-promet-operator
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: apps
+      kind: Deployment
+      name: monitoring-k3d-kube-state-metrics
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: Alertmanager
+      name: monitoring-k3d-kube-promet-alertmanager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: Prometheus
+      name: monitoring-k3d-kube-promet-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-alertmanager.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-config-reloaders
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-etcd
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-general.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-k8s.rules.container-cpu-usage-second
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-k8s.rules.container-memory-cache
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-k8s.rules.container-memory-rss
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-k8s.rules.container-memory-swap
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-k8s.rules.container-memory-working-s
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-k8s.rules.container-resource
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-k8s.rules.pod-owner
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kube-apiserver-availability.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kube-apiserver-burnrate.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kube-apiserver-histogram.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kube-apiserver-slos
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kube-prometheus-general.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kube-prometheus-node-recording.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kube-scheduler.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kube-state-metrics
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kubelet.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kubernetes-apps
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kubernetes-resources
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kubernetes-storage
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kubernetes-system
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kubernetes-system-apiserver
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kubernetes-system-controller-manager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kubernetes-system-kube-proxy
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kubernetes-system-kubelet
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-kubernetes-system-scheduler
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-node-exporter
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-node-exporter.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-node-network
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-node.rules
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+      name: monitoring-k3d-kube-promet-prometheus-operator
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-promet-alertmanager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-promet-apiserver
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-promet-coredns
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-promet-kube-controller-manager
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-promet-kube-etcd
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-promet-kube-proxy
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-promet-kube-scheduler
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-promet-kubelet
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-promet-operator
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-promet-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-kube-state-metrics
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      name: monitoring-k3d-prometheus-node-exporter
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      kind: Ingress
+      name: monitoring-k3d-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: networking.k8s.io
+      kind: Ingress
+      name: monitoring-k3d-kube-promet-prometheus
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: monitoring-k3d-grafana-clusterrole
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: monitoring-k3d-kube-promet-operator
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: monitoring-k3d-kube-promet-prometheus
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: monitoring-k3d-kube-state-metrics
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: monitoring-k3d-grafana-clusterrolebinding
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: monitoring-k3d-kube-promet-operator
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: monitoring-k3d-kube-promet-prometheus
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+      name: monitoring-k3d-kube-state-metrics
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: Role
+      name: monitoring-k3d-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+      name: monitoring-k3d-grafana
+      namespace: monitoring
+      status: Synced
+      version: v1
+    sourceHydrator: {}
+    sourceType: Helm
+    summary:
+      externalURLs:
+      - http://grafana.localhost/
+      - http://prometheus.localhost/
+      images:
+      - docker.io/grafana/grafana:10.4.1
+      - quay.io/kiwigrid/k8s-sidecar:1.26.1
+      - quay.io/prometheus-operator/prometheus-config-reloader:v0.73.2
+      - quay.io/prometheus-operator/prometheus-operator:v0.73.2
+      - quay.io/prometheus/alertmanager:v0.27.0
+      - quay.io/prometheus/node-exporter:v1.8.0
+      - quay.io/prometheus/prometheus:v2.52.0
+      - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.12.0
+    sync:
+      comparedTo:
+        destination:
+          namespace: monitoring
+          server: https://kubernetes.default.svc
+        source:
+          chart: kube-prometheus-stack
+          helm:
+            values: |
+              grafana:
+                adminPassword: admin
+                ingress:
+                  enabled: true
+                  ingressClassName: traefik
+                  annotations:
+                    kubernetes.io/ingress.class: traefik
+                    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                    traefik.ingress.kubernetes.io/router.tls: "true"
+                  hosts:
+                    - grafana.localhost
+                  tls:
+                    - hosts:
+                        - grafana.localhost
+              prometheusOperator:
+                admissionWebhooks:
+                  enabled: false
+              prometheus:
+                ingress:
+                  enabled: true
+                  ingressClassName: traefik
+                  annotations:
+                    kubernetes.io/ingress.class: traefik
+                    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                    traefik.ingress.kubernetes.io/router.tls: "true"
+                  hosts:
+                    - prometheus.localhost
+                  paths:
+                    - /
+                  pathType: Prefix
+                  tls:
+                    - hosts:
+                        - prometheus.localhost
+          repoURL: https://prometheus-community.github.io/helm-charts
+          targetRevision: 58.6.0
+      revision: 58.6.0
+      status: Synced
+kind: List
+metadata:
+  resourceVersion: ""
