@@ -23,7 +23,7 @@ csharp_api:
     name: csharp-api-svc
     type: ClusterIP
     port: 80
-    targetPort: 8080
+    targetPort: 5113
 ollama_api:
   name: ollama-api
   namespace: dev
