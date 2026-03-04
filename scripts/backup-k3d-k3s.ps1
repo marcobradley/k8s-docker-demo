@@ -30,6 +30,12 @@ if (-not $containerId) {
     throw "Could not find server container '$serverContainer'. Check cluster name."
 }
 
+function Test-ContainerRunning {
+    param([string]$Name)
+    $state = docker inspect -f "{{.State.Running}}" $Name 2>$null
+    return ($state -eq "true")
+}
+
 Write-Host "[1/5] Exporting cluster metadata and namespace resources..."
 
 kubectl config current-context | Out-File -FilePath (Join-Path $backupDir "context.txt") -Encoding utf8
@@ -59,7 +65,16 @@ catch {
 
 if (-not $NoClusterStop) {
     Write-Host "[3/5] Stopping cluster '$ClusterName' for consistent sqlite backup..."
-    k3d cluster stop $ClusterName | Out-Null
+    & k3d cluster stop $ClusterName | Out-Null
+
+    if (Test-ContainerRunning -Name $serverContainer) {
+        Write-Warning "k3d stop reported success but server container is still running. Trying docker stop..."
+        & docker stop $serverContainer | Out-Null
+    }
+
+    if (Test-ContainerRunning -Name $serverContainer) {
+        throw "Server container '$serverContainer' is still running. Aborting to avoid inconsistent sqlite backup."
+    }
 }
 else {
     Write-Warning "Skipping cluster stop. sqlite backup may be inconsistent if writes are in progress."
