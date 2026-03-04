@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.csharp_api.name }}-deployment"
+  namespace: "{{ .Values.csharp_api.namespace }}"
+spec:
+  replicas: !!int "{{ .Values.csharp_api.replicaCount }}"
+  selector:
+    matchLabels:
+      app: "{{ .Values.csharp_api.name }}"
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.csharp_api.name }}"
+    spec:
+      containers:
+      - image: "{{ .Values.csharp_api.image.repository }}:{{ .Values.csharp_api.image.tag }}"
+        name: "{{ .Values.csharp_api.name }}"
+        ports:
+        - containerPort: !!int "{{ .Values.csharp_api.service.targetPort }}"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
