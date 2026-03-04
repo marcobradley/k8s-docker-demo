@@ -11,3 +11,29 @@ go_api:
     type: ClusterIP
     port: 80
     targetPort: 8080
+csharp_api:
+  name: csharp-api
+  namespace: dev
+  replicaCount: 1
+  image:
+    repository: 'mbradleyhome/csharp-api'
+    tag: 'latest'
+    pullPolicy: IfNotPresent
+  service:
+    name: csharp-api-svc
+    type: ClusterIP
+    port: 80
+    targetPort: 8080
+ollama_api:
+  name: ollama-api
+  namespace: dev
+  replicaCount: 1
+  image:
+    repository: 'mbradleyhome/ollama-api'
+    tag: 'latest'
+    pullPolicy: IfNotPresent
+  service:
+    name: ollama-api-svc
+    type: ClusterIP
+    port: 80
+    targetPort: 8000

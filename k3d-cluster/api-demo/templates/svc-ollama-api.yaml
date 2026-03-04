@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.ollama_api.service.name }}"
+  namespace: "{{ .Values.ollama_api.namespace }}"
+spec:
+  ports:
+  - name: http
+    port: !!int "{{ .Values.ollama_api.service.port }}"
+    protocol: TCP
+    targetPort: !!int "{{ .Values.ollama_api.service.targetPort }}"
+  selector:
+    app: "{{ .Values.ollama_api.name }}"
+status:
+  loadBalancer: {}

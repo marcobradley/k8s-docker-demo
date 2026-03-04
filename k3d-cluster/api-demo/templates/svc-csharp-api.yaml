@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.csharp_api.service.name }}"
+  namespace: "{{ .Values.csharp_api.namespace }}"
+spec:
+  ports:
+  - name: http
+    port: !!int "{{ .Values.csharp_api.service.port }}"
+    protocol: TCP
+    targetPort: !!int "{{ .Values.csharp_api.service.targetPort }}"
+  selector:
+    app: "{{ .Values.csharp_api.name }}"
+status:
+  loadBalancer: {}
