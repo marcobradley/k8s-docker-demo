@@ -32,6 +32,8 @@ Before you begin, ensure your local machine meets the following requirements:
 - `k3d-cluster/argocd/` – Argo CD Application manifests for the k3d flow (core + workloads)
 - `k3d-cluster/argocd-core/` – Argo CD core runtime manifests (ingress + cmd params)
 - `k3d-cluster/api-demo/` – Helm chart/manifests for apis hosted in the cluster
+- `k3d-cluster/cluster-rbac/` – cluster-scoped RBAC chart (ClusterRole/ClusterRoleBinding)
+- `k3d-cluster/workload-rbac/` – namespace/workload RBAC chart (Role/RoleBinding)
 
 ## Using Helm with the cluster 🚀
 
@@ -115,6 +117,35 @@ Apply Argo CD core first (manages `argocd-cmd-params-cm` + ingress), then worklo
 ```powershell
 kubectl apply -f .\k3d-cluster\argocd\app-argocd-core.yaml
 kubectl apply -f .\k3d-cluster\argocd\app-argocd-dev.yaml
+```
+
+#### k3d RBAC split: cluster-wide + workload-scoped
+
+RBAC is managed as two separate Argo CD applications:
+
+- `k3d-cluster/argocd/app-cluster-rbac.yaml` for cluster-scoped permissions.
+- `k3d-cluster/argocd/app-workload-rbac-dev.yaml` for workload/namespace-scoped permissions.
+
+Apply both RBAC apps:
+
+```powershell
+kubectl apply -f .\k3d-cluster\argocd\app-cluster-rbac.yaml
+kubectl apply -f .\k3d-cluster\argocd\app-workload-rbac-dev.yaml
+```
+
+Verify Argo CD application health:
+
+```powershell
+kubectl get application -n argocd app-cluster-rbac
+kubectl get application -n argocd app-workload-rbac-dev
+```
+
+Verify RBAC resources were created:
+
+```powershell
+kubectl get clusterrole secret-reader
+kubectl get clusterrolebinding secret-reader-binding
+kubectl get role,rolebinding -n dev
 ```
 
 #### k3d monitoring: Prometheus + Grafana
