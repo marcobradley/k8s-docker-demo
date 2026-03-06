@@ -200,6 +200,15 @@ npm run check:yaml
 npm run check:helm
 ```
 
+## API image references
+
+The API container images used by this cluster come from the following repositories.
+Use these repositories as the source of truth for endpoint details and contract behavior.
+
+- `csharp-api`: https://github.com/marcobradley/csharp-api-demo
+- `golang-api`: https://github.com/marcobradley/golang-api-demo
+- `ollama-api`: https://github.com/marcobradley/ollama-llm
+
 ## CI / Release pipeline 🔁
 
 A GitHub Actions workflow has been added to automate semantic versioning using [release-me](https://github.com/semantic-release/release-me).
