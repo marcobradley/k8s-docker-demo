@@ -34,6 +34,7 @@ Before you begin, ensure your local machine meets the following requirements:
 - `k3d-cluster/api-demo/` – Helm chart/manifests for apis hosted in the cluster
 - `k3d-cluster/cluster-rbac/` – cluster-scoped RBAC chart (ClusterRole/ClusterRoleBinding)
 - `k3d-cluster/workload-rbac/` – namespace/workload RBAC chart (Role/RoleBinding)
+- `k3d-cluster/external-secrets/` – SecretStore/ExternalSecret examples for 1Password + ESO
 
 ## Using Helm with the cluster 🚀
 
@@ -227,6 +228,59 @@ kubectl rollout status deployment argocd-server -n argocd --timeout=180s
 
 If the login button does not appear, check the `argocd-cm` and `argocd-secret`
 resources and then re-sync or re-apply Argo CD core manifests.
+
+#### Optional: 1Password as secrets manager (External Secrets Operator)
+
+This optional flow follows the same architecture shown in:
+https://dev.to/3deep5me/using-1password-with-external-secrets-operator-in-a-gitops-way-4lo4
+
+Apply Argo CD apps for 1Password Connect and External Secrets Operator:
+
+```powershell
+kubectl apply -f .\k3d-cluster\argocd\app-1password-connect.yaml
+kubectl apply -f .\k3d-cluster\argocd\app-external-secrets-operator.yaml
+kubectl get pods -n external-secrets
+```
+
+Create a 1Password vault + connect server (requires `op` CLI):
+
+```powershell
+op vault create "K8s"
+op connect server create "Kubernetes" --vaults "K8s"
+```
+
+Create the Connect credentials secret in Kubernetes (`op-credentials`):
+
+```powershell
+kubectl create secret generic op-credentials -n external-secrets --from-file=1password-credentials.json="C:\path\to\1password-credentials.json"
+```
+
+Create a token for External Secrets Operator and store it in Kubernetes:
+
+```powershell
+$token = op connect token create "external-secret-operator" --server "Kubernetes" --vault "K8s"
+kubectl create secret generic onepassword-connect-token -n external-secrets --from-literal=token="$token"
+```
+
+Apply the SecretStore configuration:
+
+```powershell
+kubectl apply -f .\k3d-cluster\external-secrets\clustersecretstore-1password.yaml
+kubectl get clustersecretstore onepassword-k8s
+```
+
+End-to-end test with an example item + ExternalSecret:
+
+```powershell
+op item create --vault "K8s" --title "Scaleway Credentials" --category login accessKeyId="token-xyz" secretKey="xyz"
+kubectl apply -f .\k3d-cluster\external-secrets\externalsecret-example.yaml
+kubectl get externalsecret -n default scaleway-credentials
+kubectl get secret -n default scaleway-credentials
+```
+
+Notes:
+- Keep `connect.serviceType=ClusterIP` (already set in `app-1password-connect.yaml`).
+- Do not commit real 1Password credentials/token files into git.
 
 ## Notes 📝
 

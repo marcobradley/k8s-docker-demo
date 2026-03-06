@@ -1,4 +1,16 @@
-
 github:
   org: marcobradley
   repo: local-kubernetes-cluster-demo
+  externalSecrets:
+    enabled: true
+    store:
+      kind: ClusterSecretStore
+      name: k3s
+    oauth:
+      item: GitHub OAuth
+      clientIdProperty: clientID
+      clientSecretProperty: clientSecret
+    repo:
+      item: GitHub OAuth
+      sshPrivateKeyProperty: sshPrivateKey
+      sshPrivateKeyDecodingStrategy: Base64
