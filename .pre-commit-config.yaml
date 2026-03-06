@@ -1,7 +1,25 @@
 ---
+default_install_hook_types: [pre-commit, commit-msg]
+
 repos:
-- repo: https://github.com/commitizen-tools/commitizen
-  rev: v4.10.0 # Use the latest version or a specific version
-  hooks:
-    - id: commitizen
-      stages: [commit-msg]
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.10.0 # Use the latest version or a specific version
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
+  - repo: local
+    hooks:
+      - id: validate-yaml-files
+        name: Validate YAML files
+        entry: yamllint -c .yamllint k3d-cluster
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: lint-helm-chart-api-demo
+        name: Lint Helm chart (k3d-cluster/api-demo)
+        entry: helm lint k3d-cluster/api-demo
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]

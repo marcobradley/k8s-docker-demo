@@ -200,6 +200,43 @@ npm run check:yaml
 npm run check:helm
 ```
 
+## Pre-commit hooks
+
+This repo uses [`pre-commit`](https://pre-commit.com/) with a `commit-msg` hook
+(`commitizen`) to enforce Conventional Commit messages.
+
+Install `pre-commit` (Windows PowerShell):
+
+```powershell
+py -m pip install --user pre-commit
+pre-commit --version
+```
+
+Install hooks in this repository:
+
+```powershell
+pre-commit install
+```
+
+Because `.pre-commit-config.yaml` sets `default_install_hook_types: [commit-msg]`,
+this command installs the commit message hook automatically.
+
+Use it in your normal workflow:
+
+```powershell
+git add .
+git commit -m "feat: add monitoring docs"
+```
+
+If the commit message does not follow the expected format, the commit is blocked.
+Update the message and commit again.
+
+Optional: run all configured hooks manually:
+
+```powershell
+pre-commit run --all-files
+```
+
 ## API image references
 
 The API container images used by this cluster come from the following repositories.
