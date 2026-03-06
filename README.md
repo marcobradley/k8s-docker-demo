@@ -189,6 +189,45 @@ kubectl rollout status deployment argocd-server -n argocd --timeout=180s
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | %{[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_))}
 ```
 
+#### GitHub OAuth login for local Argo CD
+
+You can enable Argo CD SSO with GitHub OAuth for this local setup.
+1. Create an OAuth app in your GitHub org
+  - [Argocd Documentation](https://argo-cd.readthedocs.io/en/release-1.8/operator-manual/user-management/#:~:text=Once%20installed%20Argo%20CD%20has,users%20or%20configure%20SSO%20integration.)
+2. Create a GitHub OAuth App:
+  - Homepage URL: `https://argocd.localhost:8443`
+  - Authorization callback URL: `https://argocd.localhost:8443/api/dex/callback`
+
+3. Update Argo CD OAuth config files in this repo:
+  - `k3d-cluster/argocd-core/argocd-cm.yaml`
+  - `k3d-cluster/argocd-core/secret-argocd-github-oauth.yaml`
+
+4. Set your GitHub values:
+  - In `argocd-cm.yaml`, set `org.name` to your GitHub org or username.
+  - In `secret-argocd-github-oauth.yaml`, set:
+    - `dex.github.clientID`
+    - `dex.github.clientSecret`
+
+5. Apply the manifests:
+
+```powershell
+kubectl apply -f .\k3d-cluster\argocd-core\argocd-cm.yaml
+kubectl apply -f .\k3d-cluster\argocd-core\secret-argocd-github-oauth.yaml
+```
+
+5. Restart Argo CD server to pick up changes:
+
+```powershell
+kubectl rollout restart deployment argocd-server -n argocd
+kubectl rollout status deployment argocd-server -n argocd --timeout=180s
+```
+
+6. Open Argo CD and sign in with GitHub:
+  - URL: `https://argocd.localhost:8443`
+
+If the login button does not appear, check the `argocd-cm` and `argocd-secret`
+resources and then re-sync or re-apply Argo CD core manifests.
+
 ## Notes 📝
 
 * You do not need a remote Kubernetes provider; everything runs locally using a Docker-compatible engine (Docker Desktop, Rancher Desktop with `dockerd`, etc.).

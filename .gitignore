@@ -1,3 +1,4 @@
 # Local-only Argo CD repository credentials
 k3d-cluster/argocd-core/secret-repo-github.yaml
+k3d-cluster/argocd-core/secret-argocd-github-oauth.yaml
 backups/*

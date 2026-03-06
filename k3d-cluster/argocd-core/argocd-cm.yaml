@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  # External URL used for OAuth callback and Argo CD links.
+  url: https://argocd.localhost:8443
+
+  dex.config: |
+    connectors:
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          clientID: $dex.github.clientID
+          clientSecret: $dex.github.clientSecret
+          # Limit login to a specific org/user. Replace with your value.
+          orgs:
+            - name: {{ .Values.github.org }}
