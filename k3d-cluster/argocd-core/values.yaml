@@ -8,6 +8,7 @@ github:
       name: k3s
     oauth:
       item: GitHub OAuth
+      targetSecretName: argocd-github-oauth
       clientIdProperty: clientID
       clientSecretProperty: clientSecret
     repo:

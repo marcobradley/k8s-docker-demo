@@ -13,8 +13,8 @@ data:
         id: github
         name: GitHub
         config:
-          clientID: $dex.github.clientID
-          clientSecret: $dex.github.clientSecret
+          clientID: $argocd-github-oauth:clientID
+          clientSecret: $argocd-github-oauth:clientSecret
           # Limit login to a specific org/user. Replace with your value.
           orgs:
             - name: {{ .Values.github.org }}
