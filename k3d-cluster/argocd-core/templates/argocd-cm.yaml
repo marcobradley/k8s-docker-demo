@@ -16,6 +16,8 @@ data:
           clientID: $argocd-github-oauth:clientID
           clientSecret: $argocd-github-oauth:clientSecret
           loadAllGroups: true
-          # Limit login to a specific org/user. Replace with your value.
+          {{ if .Values.github.org }}
+          # Optional org restriction. Leave github.org empty to allow login without org filtering.
           orgs:
-            - name: {{ required "github.org is required" .Values.github.org | quote }}
+            - name: {{ .Values.github.org | quote }}
+          {{ end }}

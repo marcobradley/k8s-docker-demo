@@ -1,5 +1,5 @@
 github:
-  org: marcobradley
+  org: ""
   rbac:
     orgGroup: marcobradley
     adminTeamGroup: marcobradley:admin
